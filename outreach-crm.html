@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: #242424;
+  --border-hover: #333;
+  --text: #e8e8e8;
+  --muted: #666;
+  --accent: #c8f542;
+  --accent-dim: #a8d030;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5}
+
+/* Header */
+.hdr{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--surface);border-bottom:1px solid var(--border)}
+.hdr-title{font-size:18px;font-weight:600;color:var(--accent);letter-spacing:-0.02em}
+.hdr-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-top:3px}
+.hdr-right{display:flex;align-items:center;gap:20px}
+.stats{display:flex;align-items:center;gap:16px}
+.stat{text-align:center}
+.stat-val{font-family:'DM Mono',monospace;font-size:20px;font-weight:500;color:var(--text);line-height:1}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:3px}
+.stat-sep{width:1px;height:28px;background:var(--border)}
+.btn-reset{font-family:'DM Mono',monospace;font-size:11px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:4px;cursor:pointer;transition:border-color .15s,color .15s}
+.btn-reset:hover{border-color:var(--border-hover);color:var(--text)}
+
+/* Controls */
+.ctrl{display:flex;align-items:center;gap:6px;padding:10px 24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.fbtn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 11px;border-radius:4px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.fbtn:hover{border-color:var(--border-hover);color:var(--text)}
+.fbtn.act-a{color:var(--accent);border-color:var(--accent);background:rgba(200,245,66,.07)}
+.fbtn.act-c{color:#3b82f6;border-color:#3b82f6;background:rgba(59,130,246,.07)}
+.fbtn.act-m{color:#f59e0b;border-color:#f59e0b;background:rgba(245,158,11,.07)}
+.fbtn.act-co{color:#8b5cf6;border-color:#8b5cf6;background:rgba(139,92,246,.07)}
+.fbtn.act-cu{color:#ec4899;border-color:#ec4899;background:rgba(236,72,153,.07)}
+.fbtn.act-h{color:#06b6d4;border-color:#06b6d4;background:rgba(6,182,212,.07)}
+.fbtn.act-j{color:#10b981;border-color:#10b981;background:rgba(16,185,129,.07)}
+.csep{width:1px;height:20px;background:var(--border);flex-shrink:0}
+.search{font-family:'DM Mono',monospace;font-size:12px;background:transparent;border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;width:200px;margin-left:auto;transition:border-color .15s}
+.search:focus{outline:none;border-color:var(--border-hover)}
+.search::placeholder{color:var(--muted)}
+
+/* Template panel */
+.tpanel{border-bottom:1px solid var(--border);background:var(--surface)}
+.ttoggle{display:flex;align-items:center;gap:8px;width:100%;padding:10px 24px;background:transparent;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;transition:color .15s;text-align:left}
+.ttoggle:hover{color:var(--text)}
+.tchev{margin-left:auto;transition:transform .2s}
+.ttoggle.open .tchev{transform:rotate(180deg)}
+.tbody2{display:none;padding:0 24px 16px}
+.tbody2.open{display:block}
+.ttabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:14px}
+.ttab{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--muted);padding:7px 14px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}
+.ttab:hover{color:var(--text)}
+.ttab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.tcontent{}
+.theater{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.tsubj{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.btn-ctpl{font-family:'DM Mono',monospace;font-size:10px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:3px;cursor:pointer;transition:all .15s;flex-shrink:0;margin-left:12px}
+.btn-ctpl:hover{border-color:var(--accent-dim);color:var(--accent)}
+.btn-ctpl.copied{border-color:var(--accent);color:var(--accent)}
+.ttext{font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--text);white-space:pre-wrap;line-height:1.65;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px 14px;max-height:180px;overflow-y:auto}
+
+/* Table */
+.twrap{padding:0 24px 48px}
+table{width:100%;border-collapse:collapse}
+.gh td{padding:14px 8px 5px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;border-top:1px solid var(--border)}
+.gh.first td{border-top:none;padding-top:10px}
+.er{transition:background .1s}
+.er:hover{background:var(--surface)}
+.er td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.er.sent{opacity:.45}
+.cc{width:32px;text-align:center}
+.eck{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+.en{font-size:13px;font-weight:500;color:var(--text)}
+.er.sent .en{text-decoration:line-through}
+.es{font-size:11px;color:var(--muted);margin-top:1px}
+.ce{width:260px}
+.ee{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+.cbadge{width:80px}
+.cst{width:80px}
+.badge{display:inline-block;padding:2px 7px;border-radius:3px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.04em}
+.s-confirmed{background:rgba(200,245,66,.1);color:var(--accent-dim);border:1px solid rgba(200,245,66,.2)}
+.s-pattern{background:rgba(102,102,102,.1);color:var(--muted);border:1px solid rgba(102,102,102,.2)}
+.ccp{width:60px;text-align:right}
+.btn-cr{font-family:'DM Mono',monospace;font-size:9px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:3px 8px;border-radius:3px;cursor:pointer;transition:all .15s}
+.btn-cr:hover{border-color:var(--border-hover);color:var(--text)}
+.btn-cr.copied{color:var(--accent);border-color:var(--accent)}
+#nores{text-align:center;padding:48px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div>
+    <div class="hdr-title">Outreach CRM</div>
+    <div class="hdr-sub">guilhermegfmachado@gmail.com — Translation Services</div>
+  </div>
+  <div class="hdr-right">
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="sv-total">—</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-val" id="sv-sent">—</div><div class="stat-lbl">Sent</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-val" id="sv-rem">—</div><div class="stat-lbl">Remaining</div></div>
+    </div>
+    <button class="btn-reset" onclick="resetAll()">Reset All</button>
+  </div>
+</header>
+
+<div class="ctrl">
+  <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
+  <button class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
+  <div class="csep"></div>
+  <button class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
+  <button class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
+  <button class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
+  <button class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
+  <button class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
+  <button class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
+  <input type="search" class="search" id="search" placeholder="Search…" oninput="setSearch(this.value)">
+</div>
+
+<div class="tpanel">
+  <button class="ttoggle open" id="ttoggle" onclick="toggleTpl()">
+    Email Templates
+    <svg class="tchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="tbody2 open" id="tbody2">
+    <div class="ttabs" id="ttabs"></div>
+    <div class="tcontent" id="tcontent"></div>
+  </div>
+</div>
+
+<div class="twrap">
+  <table><tbody id="tb"></tbody></table>
+  <div id="nores" style="display:none">No entries match your filters.</div>
+</div>
+
+<script>
+const CAT_ORDER = ['câmara','motel','company','cultural','hotel','junta'];
+const CAT_COLOR = {'câmara':'#3b82f6','motel':'#f59e0b','company':'#8b5cf6','cultural':'#ec4899','hotel':'#06b6d4','junta':'#10b981'};
+const CAT_LABEL = {'câmara':'Câmara','motel':'Motel','company':'Company','cultural':'Cultural','hotel':'Hotel','junta':'Junta'};
+const CAT_NAME  = {'câmara':'Câmaras Municipais','motel':'Motéis','company':'Companies','cultural':'Cultural Institutions','hotel':'Hotels','junta':'Juntas de Freguesia'};
+const CAT_ACT   = {'câmara':'act-c','motel':'act-m','company':'act-co','cultural':'act-cu','hotel':'act-h','junta':'act-j'};
+
+const TEMPLATES = [
+  {
+    label:'Câmara Municipal',
+    subject:'Tradutor EN↔PT — disponível para colaboração',
+    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso o município necessite de apoio em tradução EN↔PT — para conteúdos de turismo, candidaturas europeias, correspondência internacional ou outros documentos — estou disponível para colaborar, por ajuste direto ou concurso público. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+  },
+  {
+    label:'Motel',
+    subject:'Tradução EN↔PT — website e comunicações',
+    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que não existe versão em inglês — ou que a versão existente pode beneficiar de uma revisão profissional.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Num setor que recebe cada vez mais hóspedes internacionais, uma tradução profissional do website, dos materiais de reserva e das comunicações com clientes faz toda a diferença. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\nGuilherme Machado\nguilhermegfmachado@gmail.com'
+  },
+  {
+    label:'Company',
+    subject:'EN↔PT translation — freelance support',
+    body:"Hi [Name],\n\nI'm a freelance translator with 5 years of practice working between English and Portuguese — across corporate, institutional, and editorial content.\n\nGiven [Company]'s presence across both markets, I imagine there are regular EN↔PT translation needs — website copy, product documentation, press materials, or internal communications. I also work with Spanish, French, and Italian into Portuguese, and have contacts for German and Russian. Rates are competitive and scaled to project size.\n\nPortfolio: guilhermegfmachado.github.io/work/translation.html\n\nIf translation needs come up, I'd be glad to discuss.\n\nBest,\nGuilherme Machado\nguilhermegfmachado@gmail.com"
+  },
+  {
+    label:'Cultural Institution',
+    subject:'Tradução EN↔PT — disponível para colaboração',
+    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português, com formação específica em tradução literária, filosófica e cultural.\n\nTenho trabalhado com instituições culturais portuguesas em textos de programa, materiais de exposição, comunicados de imprensa, candidaturas e correspondência internacional. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+  },
+  {
+    label:'Hotel',
+    subject:'Tradução EN↔PT — website e comunicações',
+    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que alguns conteúdos podem beneficiar de uma tradução ou revisão profissional para inglês.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Num setor onde a experiência do hóspede internacional começa online, uma tradução profissional do website, das descrições de quartos e dos materiais de reserva faz toda a diferença. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\nguilhermegfmachado.github.io/work/translation.html\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\nGuilherme Machado\nguilhermegfmachado@gmail.com'
+  },
+  {
+    label:'Junta de Freguesia',
+    subject:'Tradutor EN↔PT — disponível para colaboração',
+    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso a junta necessite de apoio em tradução EN↔PT — para comunicações institucionais, conteúdos online, correspondência internacional ou candidaturas — estou disponível para colaborar. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+  }
+];
+
+const entries = [{"id":"c1","cat":"company","name":"Symington Family Estates","sub":"Sam Legg — Communications Manager · Porto","email":"sam.legg@symington.com","status":"pattern"},{"id":"c2","cat":"company","name":"Symington Family Estates","sub":"Nicole Santos — Marketing & Comms PM · Porto","email":"nicole.santos@symington.com","status":"pattern"},{"id":"c3","cat":"company","name":"Feedzai","sub":"Roopa Ramaiya — VP of Communications · Remote","email":"roopa.ramaiya@feedzai.com","status":"pattern"},{"id":"c4","cat":"company","name":"Rows","sub":"Humberto Ayres Pereira — CEO · Porto","email":"humberto@rows.com","status":"pattern"},{"id":"c5","cat":"company","name":"Nutrium","sub":"José Alves — VP of Growth · Porto","email":"jose.alves@nutrium.io","status":"pattern"},{"id":"c6","cat":"company","name":"Talkdesk","sub":"Marketing/Communications — Portugal","email":"geral@talkdesk.com","status":"pattern"},{"id":"c7","cat":"company","name":"OutSystems","sub":"Communications team — Portugal","email":"communications@outsystems.com","status":"pattern"},{"id":"c8","cat":"company","name":"Corticeira Amorim","sub":"Marketing — Santa Maria de Lamas","email":"geral@amorim.com","status":"pattern"},{"id":"c9","cat":"company","name":"José Maria da Fonseca","sub":"Export/Marketing — Azeitão","email":"geral@jmf.pt","status":"pattern"},{"id":"c10","cat":"company","name":"Vista Alegre","sub":"Communications — Ílhavo","email":"geral@vistaalegre.com","status":"pattern"},{"id":"cu1","cat":"cultural","name":"Fundação Calouste Gulbenkian","sub":"Lisboa","email":"info@gulbenkian.pt","status":"pattern"},{"id":"cu2","cat":"cultural","name":"Fundação de Serralves","sub":"Porto","email":"serralves@serralves.pt","status":"confirmed"},{"id":"cu3","cat":"cultural","name":"Fundação EDP","sub":"Lisboa — already a client, use for expansion","email":"fundacaoedp@edp.pt","status":"confirmed"},{"id":"cu4","cat":"cultural","name":"CCB — Centro Cultural de Belém","sub":"Lisboa","email":"geral@ccb.pt","status":"pattern"},{"id":"cu5","cat":"cultural","name":"Casa da Música","sub":"Porto","email":"geral@casadamusica.com","status":"pattern"},{"id":"cu6","cat":"cultural","name":"Culturgest","sub":"Lisboa","email":"culturgest@cgd.pt","status":"pattern"},{"id":"cu7","cat":"cultural","name":"Teatro Nacional D. Maria II","sub":"Lisboa","email":"geral@teatro-dmaria.pt","status":"pattern"},{"id":"cu8","cat":"cultural","name":"Teatro Nacional São João","sub":"Porto","email":"tnsj@tnsj.pt","status":"confirmed"},{"id":"cu9","cat":"cultural","name":"Museu Nacional de Arte Contemporânea","sub":"Lisboa","email":"geral@museuartecontemporanea.gov.pt","status":"pattern"},{"id":"cu10","cat":"cultural","name":"DocLisboa","sub":"Lisboa — covered in QV","email":"doclisboa@doclisboa.org","status":"confirmed"},{"id":"cu11","cat":"cultural","name":"BoCA Biennial","sub":"Lisboa — covered in QV","email":"geral@boca.com.pt","status":"pattern"},{"id":"cu12","cat":"cultural","name":"Dgartes","sub":"Lisboa — public funding body","email":"dgartes@dgartes.gov.pt","status":"confirmed"},{"id":"cu13","cat":"cultural","name":"Festival Músicas do Mundo","sub":"Sines","email":"geral@festivalmusicasdomundo.com","status":"pattern"},{"id":"cu14","cat":"cultural","name":"Ageas Fest","sub":"Oeiras","email":"geral@ageasfest.pt","status":"pattern"},{"id":"cu15","cat":"cultural","name":"NOS Alive","sub":"Lisboa","email":"geral@nosalive.com","status":"pattern"},{"id":"m1","cat":"motel","name":"Motel IC Montijo","sub":"Montijo — has EN/FR/ES site · SENT","email":"diretor@motelicmontijo.com","status":"confirmed"},{"id":"m2","cat":"motel","name":"Motel Eleven","sub":"Barosa, Leiria — EN site exists · SENT","email":"nelia@elevenmotel.pt","status":"confirmed"},{"id":"m3","cat":"motel","name":"Motel Terra Calida","sub":"São João de Lourosa, Viseu — partial EN · SENT","email":"geral@motelterracalida.com","status":"confirmed"},{"id":"m4","cat":"motel","name":"Motel Flamingo","sub":"Perafita, Matosinhos","email":"geral@abcflamingo.pt","status":"confirmed"},{"id":"m5","cat":"motel","name":"Motel Tropicana","sub":"Vila Nova de Gaia — oldest in PT","email":"geral@moteltropicana.com","status":"confirmed"},{"id":"m6","cat":"motel","name":"Motel Silk","sub":"Pedroso, Vila Nova de Gaia","email":"director@silkmotel.com","status":"confirmed"},{"id":"m7","cat":"motel","name":"Motel Habana","sub":"Porto — near airport","email":"geral@habanamotel.com","status":"pattern"},{"id":"m8","cat":"motel","name":"Motel Avenue (Valongo)","sub":"Valongo","email":"geral@motelavenue.pt","status":"confirmed"},{"id":"m9","cat":"motel","name":"Motel Portofino","sub":"São Mamede de Infesta, Matosinhos","email":"geral@motelportofino.com","status":"confirmed"},{"id":"m10","cat":"motel","name":"Motel Havay","sub":"Leça do Balio, Matosinhos — 3 stars","email":"geral@motelhavay.pt","status":"pattern"},{"id":"m11","cat":"motel","name":"Motel Da.Vim","sub":"Guimarães — Instagram in EN","email":"geral@moteldavim.com","status":"confirmed"},{"id":"m12","cat":"motel","name":"Motel Horly","sub":"Palmeira, Braga — 55 suites · 3 stars","email":"moteishorly@moteishorly.pt","status":"confirmed"},{"id":"m13","cat":"motel","name":"Motel Bracancun","sub":"Braga — Spanish group","email":"geral@bracancun.pt","status":"pattern"},{"id":"m14","cat":"motel","name":"Vinyl M Hotel","sub":"Mealhada, Aveiro — music-themed","email":"geral@vinylmhotel.com","status":"confirmed"},{"id":"m15","cat":"motel","name":"Motel Emoções","sub":"Nogueira da Regedoura, Espinho","email":"geral@motelemocoes.pt","status":"pattern"},{"id":"m17","cat":"motel","name":"Motel Avenue (Pombal)","sub":"Pombal, Leiria","email":"geralpombal@motelavenue.pt","status":"confirmed"},{"id":"m18","cat":"motel","name":"Motel Caribe","sub":"Leiria","email":"geral@motelcaribe.pt","status":"pattern"},{"id":"m19","cat":"motel","name":"Motel Pantanal","sub":"Pelariga, Pombal","email":"geral@motelpantanal.pt","status":"pattern"},{"id":"m20","cat":"motel","name":"Motel Fonte dos Amores","sub":"Coimbra","email":"geral@fonteamores.pt","status":"pattern"},{"id":"m21","cat":"motel","name":"Motel H2ON","sub":"Frielas, Loures — 4 stars, 47 rooms","email":"info@h2onmotel.com","status":"confirmed"},{"id":"m22","cat":"motel","name":"Motel Mood Private Suites","sub":"Montijo — 53 King-size rooms","email":"geral@moodprivate.com","status":"pattern"},{"id":"m23","cat":"motel","name":"Motel Seven","sub":"Coina, Seixal — 7 Wonders themed","email":"geral@motel7.pt","status":"pattern"},{"id":"m24","cat":"motel","name":"Motel Lux Trafaria","sub":"Trafaria, Almada — new luxury","email":"reservas@luxtrafaria.com","status":"confirmed"},{"id":"m26","cat":"motel","name":"Motel Requinte","sub":"Abrunheira, Sintra","email":"geral@motelrequinte.pt","status":"pattern"},{"id":"m27","cat":"motel","name":"Motel XRoomz","sub":"Lisboa — boutique 10 suites","email":"geral@xroomz.pt","status":"pattern"},{"id":"h1","cat":"hotel","name":"Bairro Alto Hotel","sub":"Lisboa — 5 stars, international","email":"reservations@bairroaltohotel.com","status":"confirmed"},{"id":"h2","cat":"hotel","name":"Hotel Palácio Estoril","sub":"Estoril — historic, international","email":"geral@palacioestorilhotel.com","status":"pattern"},{"id":"h3","cat":"hotel","name":"Torel Avantgarde","sub":"Porto — design hotel","email":"geral@torelavantgarde.com","status":"pattern"},{"id":"h4","cat":"hotel","name":"Vila Vita Parc","sub":"Porches, Algarve — 5 stars resort","email":"reservations@vilavitaparc.com","status":"confirmed"},{"id":"h5","cat":"hotel","name":"Martinhal Resorts","sub":"Algarve/Lisboa — family luxury","email":"info@martinhal.com","status":"confirmed"},{"id":"h6","cat":"hotel","name":"Sublime Comporta","sub":"Comporta — boutique, international","email":"info@sublimecomporta.com","status":"confirmed"},{"id":"h7","cat":"hotel","name":"Pestana Group","sub":"Lisboa — Portuguese chain, international","email":"geral@pestana.com","status":"pattern"},{"id":"h8","cat":"hotel","name":"Douro Valley Wine Hotel","sub":"Peso da Régua — tourism","email":"geral@dourovalleyhotel.com","status":"pattern"},{"id":"j1","cat":"junta","name":"Junta de Freguesia de Belém","sub":"Lisboa","email":"geral@jf-belem.pt","status":"pattern"},{"id":"j2","cat":"junta","name":"Junta de Freguesia de Cascais e Estoril","sub":"Cascais","email":"geral@jf-cascaisestoril.pt","status":"pattern"},{"id":"j3","cat":"junta","name":"Junta de Freguesia de Sintra","sub":"Sintra","email":"geral@jf-sintra.pt","status":"pattern"},{"id":"j4","cat":"junta","name":"Junta de Freguesia de Braga","sub":"Braga","email":"geral@jf-braga.pt","status":"pattern"},{"id":"j5","cat":"junta","name":"Junta de Freguesia de Vilamoura","sub":"Loulé, Faro — major tourism","email":"geral@jf-vilamoura.pt","status":"pattern"},{"id":"j6","cat":"junta","name":"Junta de Freguesia de Portimão","sub":"Portimão, Faro","email":"geral@jf-portimao.pt","status":"pattern"},{"id":"j7","cat":"junta","name":"Junta de Freguesia de Albufeira","sub":"Albufeira, Faro","email":"geral@jf-albufeira.pt","status":"pattern"},{"id":"cm_0","cat":"câmara","name":"Câmara Municipal de Águeda","sub":"Aveiro","email":"geral@cm-agueda.pt","status":"confirmed"},{"id":"cm_1","cat":"câmara","name":"Câmara Municipal de Albergaria-a-Velha","sub":"Aveiro","email":"camara@cm-albergaria.pt","status":"confirmed"},{"id":"cm_2","cat":"câmara","name":"Câmara Municipal de Anadia","sub":"Aveiro","email":"geral@cm-anadia.pt","status":"confirmed"},{"id":"cm_3","cat":"câmara","name":"Câmara Municipal de Arouca","sub":"Aveiro","email":"geral@cm-arouca.pt","status":"confirmed"},{"id":"cm_4","cat":"câmara","name":"Câmara Municipal de Aveiro","sub":"Aveiro","email":"geral@cm-aveiro.pt","status":"confirmed"},{"id":"cm_5","cat":"câmara","name":"Câmara Municipal de Castelo de Paiva","sub":"Aveiro","email":"gap.presidente@cm-castelo-paiva.pt","status":"confirmed"},{"id":"cm_6","cat":"câmara","name":"Câmara Municipal de Espinho","sub":"Aveiro","email":"expediente@cm-espinho.pt","status":"confirmed"},{"id":"cm_7","cat":"câmara","name":"Câmara Municipal de Estarreja","sub":"Aveiro","email":"geral@cm-estarreja.pt","status":"confirmed"},{"id":"cm_8","cat":"câmara","name":"Câmara Municipal de Ílhavo","sub":"Aveiro","email":"geral@cm-ilhavo.pt","status":"confirmed"},{"id":"cm_9","cat":"câmara","name":"Câmara Municipal de Mealhada","sub":"Aveiro","email":"gabpresidencia@cm-mealhada.pt","status":"confirmed"},{"id":"cm_10","cat":"câmara","name":"Câmara Municipal de Murtosa","sub":"Aveiro","email":"geral@cm-murtosa.pt","status":"confirmed"},{"id":"cm_11","cat":"câmara","name":"Câmara Municipal de Oliveira de Azeméis","sub":"Aveiro","email":"geral@cm-oaz.pt","status":"confirmed"},{"id":"cm_12","cat":"câmara","name":"Câmara Municipal de Oliveira do Bairro","sub":"Aveiro","email":"cmob@cm-ob.pt","status":"confirmed"},{"id":"cm_13","cat":"câmara","name":"Câmara Municipal de Ovar","sub":"Aveiro","email":"gapresidencia@cm-ovar.pt","status":"confirmed"},{"id":"cm_14","cat":"câmara","name":"Câmara Municipal de Santa Maria da Feira","sub":"Aveiro","email":"santamariadafeira@cm-feira.pt","status":"confirmed"},{"id":"cm_15","cat":"câmara","name":"Câmara Municipal de São João da Madeira","sub":"Aveiro","email":"geral@cm-sjm.pt","status":"confirmed"},{"id":"cm_16","cat":"câmara","name":"Câmara Municipal de Sever do Vouga","sub":"Aveiro","email":"cm.sever@cm-sever.pt","status":"confirmed"},{"id":"cm_17","cat":"câmara","name":"Câmara Municipal de Vagos","sub":"Aveiro","email":"cmvagos@cm-vagos.pt","status":"confirmed"},{"id":"cm_18","cat":"câmara","name":"Câmara Municipal de Vale de Cambra","sub":"Aveiro","email":"geral@cm-valedecambra.pt","status":"confirmed"},{"id":"cm_19","cat":"câmara","name":"Câmara Municipal de Aljustrel","sub":"Beja","email":"geral@mun-aljustrel.pt","status":"confirmed"},{"id":"cm_20","cat":"câmara","name":"Câmara Municipal de Almodôvar","sub":"Beja","email":"geral@cm-almodovar.pt","status":"confirmed"},{"id":"cm_21","cat":"câmara","name":"Câmara Municipal de Alvito","sub":"Beja","email":"geral@cm-alvito.pt","status":"confirmed"},{"id":"cm_22","cat":"câmara","name":"Câmara Municipal de Barrancos","sub":"Beja","email":"geral@cm-barrancos.pt","status":"confirmed"},{"id":"cm_23","cat":"câmara","name":"Câmara Municipal de Beja","sub":"Beja","email":"geral@cm-beja.pt","status":"confirmed"},{"id":"cm_24","cat":"câmara","name":"Câmara Municipal de Castro Verde","sub":"Beja","email":"geral@cm-castroverde.pt","status":"confirmed"},{"id":"cm_25","cat":"câmara","name":"Câmara Municipal de Cuba","sub":"Beja","email":"geral@cm-cuba.pt","status":"pattern"},{"id":"cm_26","cat":"câmara","name":"Câmara Municipal de Ferreira do Alentejo","sub":"Beja","email":"geral@cm-ferreira-alentejo.pt","status":"confirmed"},{"id":"cm_27","cat":"câmara","name":"Câmara Municipal de Mértola","sub":"Beja","email":"geral@cm-mertola.pt","status":"confirmed"},{"id":"cm_28","cat":"câmara","name":"Câmara Municipal de Moura","sub":"Beja","email":"cmmoura@cm-moura.pt","status":"confirmed"},{"id":"cm_29","cat":"câmara","name":"Câmara Municipal de Odemira","sub":"Beja","email":"geral@cm-odemira.pt","status":"confirmed"},{"id":"cm_30","cat":"câmara","name":"Câmara Municipal de Ourique","sub":"Beja","email":"geral@cmourique.pt","status":"confirmed"},{"id":"cm_31","cat":"câmara","name":"Câmara Municipal de Serpa","sub":"Beja","email":"geral@mun-serpa.pt","status":"confirmed"},{"id":"cm_32","cat":"câmara","name":"Câmara Municipal de Vidigueira","sub":"Beja","email":"geral@cm-vidigueira.pt","status":"confirmed"},{"id":"cm_33","cat":"câmara","name":"Câmara Municipal de Amares","sub":"Braga","email":"geral@municipioamares.pt","status":"confirmed"},{"id":"cm_34","cat":"câmara","name":"Câmara Municipal de Barcelos","sub":"Braga","email":"geral@cm-barcelos.pt","status":"confirmed"},{"id":"cm_35","cat":"câmara","name":"Câmara Municipal de Braga","sub":"Braga","email":"presidente@cm-braga.pt","status":"confirmed"},{"id":"cm_36","cat":"câmara","name":"Câmara Municipal de Cabeceiras de Basto","sub":"Braga","email":"servicoatendimentounico@cabeceirasdebasto.pt","status":"confirmed"},{"id":"cm_37","cat":"câmara","name":"Câmara Municipal de Celorico de Basto","sub":"Braga","email":"geral@cm-celoricobasto.pt","status":"confirmed"},{"id":"cm_38","cat":"câmara","name":"Câmara Municipal de Esposende","sub":"Braga","email":"presidente@cm-esposende.pt","status":"confirmed"},{"id":"cm_39","cat":"câmara","name":"Câmara Municipal de Fafe","sub":"Braga","email":"geral@cm-fafe.pt","status":"confirmed"},{"id":"cm_40","cat":"câmara","name":"Câmara Municipal de Guimarães","sub":"Braga","email":"geral@cm-guimaraes.pt","status":"confirmed"},{"id":"cm_41","cat":"câmara","name":"Câmara Municipal de Póvoa de Lanhoso","sub":"Braga","email":"apoio.presidencia@cm-povoadelanhoso.pt","status":"confirmed"},{"id":"cm_42","cat":"câmara","name":"Câmara Municipal de Terras de Bouro","sub":"Braga","email":"geral@cm-terrasdebouro.pt","status":"confirmed"},{"id":"cm_43","cat":"câmara","name":"Câmara Municipal de Vieira do Minho","sub":"Braga","email":"geral@cm-vminho.pt","status":"confirmed"},{"id":"cm_44","cat":"câmara","name":"Câmara Municipal de Vila Nova de Famalicão","sub":"Braga","email":"camaramunicipal@cm-vnfamalicao.pt","status":"confirmed"},{"id":"cm_45","cat":"câmara","name":"Câmara Municipal de Vila Verde","sub":"Braga","email":"geral@cm-vilaverde.pt","status":"confirmed"},{"id":"cm_46","cat":"câmara","name":"Câmara Municipal de Vizela","sub":"Braga","email":"geral@cm-vizela.pt","status":"confirmed"},{"id":"cm_47","cat":"câmara","name":"Câmara Municipal de Alfândega da Fé","sub":"Bragança","email":"geral@cm-alfandegadafe.pt","status":"pattern"},{"id":"cm_48","cat":"câmara","name":"Câmara Municipal de Bragança","sub":"Bragança","email":"cmb@cm-braganca.pt","status":"confirmed"},{"id":"cm_49","cat":"câmara","name":"Câmara Municipal de Carrazeda de Ansiães","sub":"Bragança","email":"geral@cm-carrazedadeansiaes.pt","status":"pattern"},{"id":"cm_50","cat":"câmara","name":"Câmara Municipal de Freixo de Espada à Cinta","sub":"Bragança","email":"geral@cm-freixoespadacinta.pt","status":"confirmed"},{"id":"cm_51","cat":"câmara","name":"Câmara Municipal de Macedo de Cavaleiros","sub":"Bragança","email":"geral@cm-macedodecavaleiros.pt","status":"confirmed"},{"id":"cm_52","cat":"câmara","name":"Câmara Municipal de Miranda do Douro","sub":"Bragança","email":"geral@cm-mdouro.pt","status":"confirmed"},{"id":"cm_53","cat":"câmara","name":"Câmara Municipal de Mirandela","sub":"Bragança","email":"geral@cm-mirandela.pt","status":"confirmed"},{"id":"cm_54","cat":"câmara","name":"Câmara Municipal de Mogadouro","sub":"Bragança","email":"geral@cm-mogadouro.pt","status":"pattern"},{"id":"cm_55","cat":"câmara","name":"Câmara Municipal de Moncorvo","sub":"Bragança","email":"geral@cm-moncorvo.pt","status":"confirmed"},{"id":"cm_56","cat":"câmara","name":"Câmara Municipal de Vila Flor","sub":"Bragança","email":"geral@cm-vilaflor.pt","status":"pattern"},{"id":"cm_57","cat":"câmara","name":"Câmara Municipal de Vimioso","sub":"Bragança","email":"geral@cm-vimioso.pt","status":"pattern"},{"id":"cm_58","cat":"câmara","name":"Câmara Municipal de Vinhais","sub":"Bragança","email":"geral@cm-vinhais.pt","status":"confirmed"},{"id":"cm_59","cat":"câmara","name":"Câmara Municipal de Belmonte","sub":"Castelo Branco","email":"geral@cm-belmonte.pt","status":"confirmed"},{"id":"cm_60","cat":"câmara","name":"Câmara Municipal de Castelo Branco","sub":"Castelo Branco","email":"camara@cm-castelobranco.pt","status":"confirmed"},{"id":"cm_61","cat":"câmara","name":"Câmara Municipal de Covilhã","sub":"Castelo Branco","email":"info@cm-covilha.pt","status":"confirmed"},{"id":"cm_62","cat":"câmara","name":"Câmara Municipal de Fundão","sub":"Castelo Branco","email":"municipio-fundao@cm-fundao.pt","status":"confirmed"},{"id":"cm_63","cat":"câmara","name":"Câmara Municipal de Idanha-a-Nova","sub":"Castelo Branco","email":"cmidanha@gmail.com","status":"confirmed"},{"id":"cm_64","cat":"câmara","name":"Câmara Municipal de Oleiros","sub":"Castelo Branco","email":"geral@cm-oleiros.pt","status":"confirmed"},{"id":"cm_65","cat":"câmara","name":"Câmara Municipal de Penamacor","sub":"Castelo Branco","email":"secretaria.gap@cm-penamacor.pt","status":"confirmed"},{"id":"cm_66","cat":"câmara","name":"Câmara Municipal de Proença-a-Nova","sub":"Castelo Branco","email":"geral@cm-proencanova.pt","status":"pattern"},{"id":"cm_67","cat":"câmara","name":"Câmara Municipal de Sertã","sub":"Castelo Branco","email":"cmsgeral@cm-serta.pt","status":"confirmed"},{"id":"cm_68","cat":"câmara","name":"Câmara Municipal de Vila de Rei","sub":"Castelo Branco","email":"geral@cm-viladerei.pt","status":"confirmed"},{"id":"cm_69","cat":"câmara","name":"Câmara Municipal de Vila Velha de Ródão","sub":"Castelo Branco","email":"geral@cm-vvrodao.pt","status":"confirmed"},{"id":"cm_70","cat":"câmara","name":"Câmara Municipal de Arganil","sub":"Coimbra","email":"geral@cm-arganil.pt","status":"confirmed"},{"id":"cm_71","cat":"câmara","name":"Câmara Municipal de Cantanhede","sub":"Coimbra","email":"geral@cm-cantanhede.pt","status":"confirmed"},{"id":"cm_72","cat":"câmara","name":"Câmara Municipal de Coimbra","sub":"Coimbra","email":"geral@cm-coimbra.pt","status":"confirmed"},{"id":"cm_73","cat":"câmara","name":"Câmara Municipal de Condeixa-a-Nova","sub":"Coimbra","email":"geral@cm-condeixa.pt","status":"confirmed"},{"id":"cm_74","cat":"câmara","name":"Câmara Municipal de Figueira da Foz","sub":"Coimbra","email":"municipe@cm-figfoz.pt","status":"confirmed"},{"id":"cm_75","cat":"câmara","name":"Câmara Municipal de Góis","sub":"Coimbra","email":"correio@cm-gois.pt","status":"confirmed"},{"id":"cm_76","cat":"câmara","name":"Câmara Municipal de Lousã","sub":"Coimbra","email":"geral@cm-lousa.pt","status":"confirmed"},{"id":"cm_77","cat":"câmara","name":"Câmara Municipal de Mira","sub":"Coimbra","email":"geral@cm-mira.pt","status":"confirmed"},{"id":"cm_78","cat":"câmara","name":"Câmara Municipal de Miranda do Corvo","sub":"Coimbra","email":"camara@cm-mirandadocorvo.pt","status":"confirmed"},{"id":"cm_79","cat":"câmara","name":"Câmara Municipal de Montemor-o-Velho","sub":"Coimbra","email":"geral@cm-montemorvelho.pt","status":"confirmed"},{"id":"cm_80","cat":"câmara","name":"Câmara Municipal de Oliveira do Hospital","sub":"Coimbra","email":"geral@cm-oliveiradohospital.pt","status":"confirmed"},{"id":"cm_81","cat":"câmara","name":"Câmara Municipal de Pampilhosa da Serra","sub":"Coimbra","email":"municipio@cm-pampilhosadaserra.pt","status":"confirmed"},{"id":"cm_82","cat":"câmara","name":"Câmara Municipal de Penacova","sub":"Coimbra","email":"geral@cm-penacova.pt","status":"confirmed"},{"id":"cm_83","cat":"câmara","name":"Câmara Municipal de Penela","sub":"Coimbra","email":"cmpenela@cm-penela.pt","status":"confirmed"},{"id":"cm_84","cat":"câmara","name":"Câmara Municipal de Soure","sub":"Coimbra","email":"geral@cm-soure.pt","status":"pattern"},{"id":"cm_85","cat":"câmara","name":"Câmara Municipal de Tábua","sub":"Coimbra","email":"geral@cm-tabua.pt","status":"confirmed"},{"id":"cm_86","cat":"câmara","name":"Câmara Municipal de Vila Nova de Poiares","sub":"Coimbra","email":"geral@cm-vilanovadepoiares.pt","status":"pattern"},{"id":"cm_87","cat":"câmara","name":"Câmara Municipal de Alandroal","sub":"Évora","email":"geral@cm-alandroal.pt","status":"pattern"},{"id":"cm_88","cat":"câmara","name":"Câmara Municipal de Arraiolos","sub":"Évora","email":"geral@cm-arraiolos.pt","status":"confirmed"},{"id":"cm_89","cat":"câmara","name":"Câmara Municipal de Borba","sub":"Évora","email":"geral@cm-borba.pt","status":"confirmed"},{"id":"cm_90","cat":"câmara","name":"Câmara Municipal de Estremoz","sub":"Évora","email":"cm-estremoz@cm-estremoz.pt","status":"confirmed"},{"id":"cm_91","cat":"câmara","name":"Câmara Municipal de Évora","sub":"Évora","email":"cmevora@mail.evora.net","status":"confirmed"},{"id":"cm_92","cat":"câmara","name":"Câmara Municipal de Montemor-o-Novo","sub":"Évora","email":"cmmontemor@cm-montemornovo.pt","status":"confirmed"},{"id":"cm_93","cat":"câmara","name":"Câmara Municipal de Mora","sub":"Évora","email":"geral@cm-mora.pt","status":"pattern"},{"id":"cm_94","cat":"câmara","name":"Câmara Municipal de Mourão","sub":"Évora","email":"gap@cm-mourao.pt","status":"confirmed"},{"id":"cm_95","cat":"câmara","name":"Câmara Municipal de Portel","sub":"Évora","email":"geral@mail.cm-portel.pt","status":"confirmed"},{"id":"cm_96","cat":"câmara","name":"Câmara Municipal de Redondo","sub":"Évora","email":"geral@cm-redondo.pt","status":"confirmed"},{"id":"cm_97","cat":"câmara","name":"Câmara Municipal de Reguengos de Monsaraz","sub":"Évora","email":"geral@cm-reguengos-monsaraz.pt","status":"confirmed"},{"id":"cm_98","cat":"câmara","name":"Câmara Municipal de Vendas Novas","sub":"Évora","email":"geral@cm-vendasnovas.pt","status":"confirmed"},{"id":"cm_99","cat":"câmara","name":"Câmara Municipal de Viana do Alentejo","sub":"Évora","email":"camara@cm-vianadoalentejo.pt","status":"confirmed"},{"id":"cm_100","cat":"câmara","name":"Câmara Municipal de Vila Viçosa","sub":"Évora","email":"geral@cm-vilavicosa.pt","status":"pattern"},{"id":"cm_101","cat":"câmara","name":"Câmara Municipal de Albufeira","sub":"Faro","email":"geral@cm-albufeira.pt","status":"pattern"},{"id":"cm_102","cat":"câmara","name":"Câmara Municipal de Alcoutim","sub":"Faro","email":"geral@cm-alcoutim.pt","status":"pattern"},{"id":"cm_103","cat":"câmara","name":"Câmara Municipal de Aljezur","sub":"Faro","email":"geral@cm-aljezur.pt","status":"pattern"},{"id":"cm_104","cat":"câmara","name":"Câmara Municipal de Castro Marim","sub":"Faro","email":"geral@cm-castromarim.pt","status":"pattern"},{"id":"cm_105","cat":"câmara","name":"Câmara Municipal de Faro","sub":"Faro","email":"geral@cm-faro.pt","status":"confirmed"},{"id":"cm_106","cat":"câmara","name":"Câmara Municipal de Lagoa","sub":"Faro","email":"geral@cm-lagoa.pt","status":"pattern"},{"id":"cm_107","cat":"câmara","name":"Câmara Municipal de Lagos","sub":"Faro","email":"geral@cm-lagos.pt","status":"pattern"},{"id":"cm_108","cat":"câmara","name":"Câmara Municipal de Loulé","sub":"Faro","email":"geral@cm-loule.pt","status":"pattern"},{"id":"cm_109","cat":"câmara","name":"Câmara Municipal de Monchique","sub":"Faro","email":"geral@cm-monchique.pt","status":"pattern"},{"id":"cm_110","cat":"câmara","name":"Câmara Municipal de Olhão","sub":"Faro","email":"geral@cm-olhao.pt","status":"pattern"},{"id":"cm_111","cat":"câmara","name":"Câmara Municipal de Portimão","sub":"Faro","email":"geral@cm-portimao.pt","status":"pattern"},{"id":"cm_112","cat":"câmara","name":"Câmara Municipal de São Brás de Alportel","sub":"Faro","email":"geral@cm-sbras.pt","status":"pattern"},{"id":"cm_113","cat":"câmara","name":"Câmara Municipal de Silves","sub":"Faro","email":"geral@cm-silves.pt","status":"pattern"},{"id":"cm_114","cat":"câmara","name":"Câmara Municipal de Tavira","sub":"Faro","email":"geral@cm-tavira.pt","status":"pattern"},{"id":"cm_115","cat":"câmara","name":"Câmara Municipal de Vila do Bispo","sub":"Faro","email":"geral@cm-viladobispo.pt","status":"pattern"},{"id":"cm_116","cat":"câmara","name":"Câmara Municipal de Vila Real de Santo António","sub":"Faro","email":"geral@cm-vrsa.pt","status":"pattern"},{"id":"cm_117","cat":"câmara","name":"Câmara Municipal de Aguiar da Beira","sub":"Guarda","email":"geral@cm-aguiardabeira.pt","status":"pattern"},{"id":"cm_118","cat":"câmara","name":"Câmara Municipal de Almeida","sub":"Guarda","email":"geral@cm-almeida.pt","status":"pattern"},{"id":"cm_119","cat":"câmara","name":"Câmara Municipal de Celorico da Beira","sub":"Guarda","email":"geral@cm-celoricodabeira.pt","status":"pattern"},{"id":"cm_120","cat":"câmara","name":"Câmara Municipal de Figueira de Castelo Rodrigo","sub":"Guarda","email":"geral@cm-fcr.pt","status":"pattern"},{"id":"cm_121","cat":"câmara","name":"Câmara Municipal de Fornos de Algodres","sub":"Guarda","email":"geral@cm-fornosdealgodres.pt","status":"pattern"},{"id":"cm_122","cat":"câmara","name":"Câmara Municipal de Gouveia","sub":"Guarda","email":"geral@cm-gouveia.pt","status":"pattern"},{"id":"cm_123","cat":"câmara","name":"Câmara Municipal de Guarda","sub":"Guarda","email":"geral@cm-guarda.pt","status":"pattern"},{"id":"cm_124","cat":"câmara","name":"Câmara Municipal de Manteigas","sub":"Guarda","email":"geral@cm-manteigas.pt","status":"pattern"},{"id":"cm_125","cat":"câmara","name":"Câmara Municipal de Mêda","sub":"Guarda","email":"geral@cm-meda.pt","status":"pattern"},{"id":"cm_126","cat":"câmara","name":"Câmara Municipal de Pinhel","sub":"Guarda","email":"geral@cm-pinhel.pt","status":"pattern"},{"id":"cm_127","cat":"câmara","name":"Câmara Municipal de Sabugal","sub":"Guarda","email":"geral@cm-sabugal.pt","status":"pattern"},{"id":"cm_128","cat":"câmara","name":"Câmara Municipal de Seia","sub":"Guarda","email":"geral@cm-seia.pt","status":"pattern"},{"id":"cm_129","cat":"câmara","name":"Câmara Municipal de Trancoso","sub":"Guarda","email":"geral@cm-trancoso.pt","status":"pattern"},{"id":"cm_130","cat":"câmara","name":"Câmara Municipal de Vila Nova de Foz Côa","sub":"Guarda","email":"geral@cm-fozcoa.pt","status":"pattern"},{"id":"cm_131","cat":"câmara","name":"Câmara Municipal de Alcobaça","sub":"Leiria","email":"geral@cm-alcobaca.pt","status":"pattern"},{"id":"cm_132","cat":"câmara","name":"Câmara Municipal de Alvaiázere","sub":"Leiria","email":"geral@cm-alvaiazere.pt","status":"pattern"},{"id":"cm_133","cat":"câmara","name":"Câmara Municipal de Ansião","sub":"Leiria","email":"geral@cm-ansiao.pt","status":"pattern"},{"id":"cm_134","cat":"câmara","name":"Câmara Municipal de Batalha","sub":"Leiria","email":"geral@cm-batalha.pt","status":"pattern"},{"id":"cm_135","cat":"câmara","name":"Câmara Municipal de Bombarral","sub":"Leiria","email":"geral@cm-bombarral.pt","status":"pattern"},{"id":"cm_136","cat":"câmara","name":"Câmara Municipal de Caldas da Rainha","sub":"Leiria","email":"geral@cm-caldas-rainha.pt","status":"pattern"},{"id":"cm_137","cat":"câmara","name":"Câmara Municipal de Castanheira de Pera","sub":"Leiria","email":"geral@cm-castanheiradepera.pt","status":"pattern"},{"id":"cm_138","cat":"câmara","name":"Câmara Municipal de Figueiró dos Vinhos","sub":"Leiria","email":"geral@cm-figvinha.pt","status":"pattern"},{"id":"cm_139","cat":"câmara","name":"Câmara Municipal de Leiria","sub":"Leiria","email":"geral@cm-leiria.pt","status":"pattern"},{"id":"cm_140","cat":"câmara","name":"Câmara Municipal de Marinha Grande","sub":"Leiria","email":"geral@cm-mgrande.pt","status":"pattern"},{"id":"cm_141","cat":"câmara","name":"Câmara Municipal de Nazaré","sub":"Leiria","email":"geral@cm-nazare.pt","status":"pattern"},{"id":"cm_142","cat":"câmara","name":"Câmara Municipal de Óbidos","sub":"Leiria","email":"geral@cm-obidos.pt","status":"pattern"},{"id":"cm_143","cat":"câmara","name":"Câmara Municipal de Pedrógão Grande","sub":"Leiria","email":"geral@cm-pedrogaogrande.pt","status":"pattern"},{"id":"cm_144","cat":"câmara","name":"Câmara Municipal de Peniche","sub":"Leiria","email":"geral@cm-peniche.pt","status":"pattern"},{"id":"cm_145","cat":"câmara","name":"Câmara Municipal de Pombal","sub":"Leiria","email":"geral@cm-pombal.pt","status":"pattern"},{"id":"cm_146","cat":"câmara","name":"Câmara Municipal de Porto de Mós","sub":"Leiria","email":"geral@municipio-portodemos.pt","status":"confirmed"},{"id":"cm_147","cat":"câmara","name":"Câmara Municipal de Alenquer","sub":"Lisboa","email":"geral@cm-alenquer.pt","status":"pattern"},{"id":"cm_148","cat":"câmara","name":"Câmara Municipal de Amadora","sub":"Lisboa","email":"geral@cm-amadora.pt","status":"pattern"},{"id":"cm_149","cat":"câmara","name":"Câmara Municipal de Arruda dos Vinhos","sub":"Lisboa","email":"geral@cm-arruda.pt","status":"pattern"},{"id":"cm_150","cat":"câmara","name":"Câmara Municipal de Azambuja","sub":"Lisboa","email":"geral@cm-azambuja.pt","status":"pattern"},{"id":"cm_151","cat":"câmara","name":"Câmara Municipal de Cadaval","sub":"Lisboa","email":"geral@cm-cadaval.pt","status":"pattern"},{"id":"cm_152","cat":"câmara","name":"Câmara Municipal de Cascais","sub":"Lisboa","email":"geral@cm-cascais.pt","status":"pattern"},{"id":"cm_153","cat":"câmara","name":"Câmara Municipal de Lisboa","sub":"Lisboa","email":"agenda.cultural@cm-lisboa.pt","status":"confirmed"},{"id":"cm_154","cat":"câmara","name":"Câmara Municipal de Loures","sub":"Lisboa","email":"geral@cm-loures.pt","status":"pattern"},{"id":"cm_155","cat":"câmara","name":"Câmara Municipal de Lourinhã","sub":"Lisboa","email":"geral@cm-lourinha.pt","status":"pattern"},{"id":"cm_156","cat":"câmara","name":"Câmara Municipal de Mafra","sub":"Lisboa","email":"geral@cm-mafra.pt","status":"pattern"},{"id":"cm_157","cat":"câmara","name":"Câmara Municipal de Odivelas","sub":"Lisboa","email":"geral@cm-odivelas.pt","status":"pattern"},{"id":"cm_158","cat":"câmara","name":"Câmara Municipal de Oeiras","sub":"Lisboa","email":"geral@cm-oeiras.pt","status":"pattern"},{"id":"cm_159","cat":"câmara","name":"Câmara Municipal de Sintra","sub":"Lisboa","email":"geral@cm-sintra.pt","status":"pattern"},{"id":"cm_160","cat":"câmara","name":"Câmara Municipal de Sobral de Monte Agraço","sub":"Lisboa","email":"geral@cm-sobral.pt","status":"pattern"},{"id":"cm_161","cat":"câmara","name":"Câmara Municipal de Torres Vedras","sub":"Lisboa","email":"geral@cm-tvedras.pt","status":"pattern"},{"id":"cm_162","cat":"câmara","name":"Câmara Municipal de Vila Franca de Xira","sub":"Lisboa","email":"geral@cm-vfxira.pt","status":"pattern"},{"id":"cm_163","cat":"câmara","name":"Câmara Municipal de Alter do Chão","sub":"Portalegre","email":"geral@cm-alter-chao.pt","status":"pattern"},{"id":"cm_164","cat":"câmara","name":"Câmara Municipal de Arronches","sub":"Portalegre","email":"geral@cm-arronches.pt","status":"pattern"},{"id":"cm_165","cat":"câmara","name":"Câmara Municipal de Avis","sub":"Portalegre","email":"geral@cm-avis.pt","status":"pattern"},{"id":"cm_166","cat":"câmara","name":"Câmara Municipal de Campo Maior","sub":"Portalegre","email":"geral@cm-campo-maior.pt","status":"pattern"},{"id":"cm_167","cat":"câmara","name":"Câmara Municipal de Castelo de Vide","sub":"Portalegre","email":"geral@cm-castelo-vide.pt","status":"pattern"},{"id":"cm_168","cat":"câmara","name":"Câmara Municipal de Crato","sub":"Portalegre","email":"geral@cm-crato.pt","status":"pattern"},{"id":"cm_169","cat":"câmara","name":"Câmara Municipal de Elvas","sub":"Portalegre","email":"geral@cm-elvas.pt","status":"pattern"},{"id":"cm_170","cat":"câmara","name":"Câmara Municipal de Fronteira","sub":"Portalegre","email":"geral@cm-fronteira.pt","status":"pattern"},{"id":"cm_171","cat":"câmara","name":"Câmara Municipal de Gavião","sub":"Portalegre","email":"geral@cm-gaviao.pt","status":"pattern"},{"id":"cm_172","cat":"câmara","name":"Câmara Municipal de Marvão","sub":"Portalegre","email":"geral@cm-marvao.pt","status":"pattern"},{"id":"cm_173","cat":"câmara","name":"Câmara Municipal de Monforte","sub":"Portalegre","email":"geral@cm-monforte.pt","status":"pattern"},{"id":"cm_174","cat":"câmara","name":"Câmara Municipal de Nisa","sub":"Portalegre","email":"geral@cm-nisa.pt","status":"pattern"},{"id":"cm_175","cat":"câmara","name":"Câmara Municipal de Ponte de Sor","sub":"Portalegre","email":"geral@cm-pontedesor.pt","status":"pattern"},{"id":"cm_176","cat":"câmara","name":"Câmara Municipal de Portalegre","sub":"Portalegre","email":"municipio@cm-portalegre.pt","status":"confirmed"},{"id":"cm_177","cat":"câmara","name":"Câmara Municipal de Sousel","sub":"Portalegre","email":"geral@cm-sousel.pt","status":"confirmed"},{"id":"cm_178","cat":"câmara","name":"Câmara Municipal de Amarante","sub":"Porto","email":"geral@cm-amarante.pt","status":"pattern"},{"id":"cm_179","cat":"câmara","name":"Câmara Municipal de Baião","sub":"Porto","email":"geral@cm-baiao.pt","status":"confirmed"},{"id":"cm_180","cat":"câmara","name":"Câmara Municipal de Felgueiras","sub":"Porto","email":"gapp@cm-felgueiras.pt","status":"confirmed"},{"id":"cm_181","cat":"câmara","name":"Câmara Municipal de Gondomar","sub":"Porto","email":"geral@cm-gondomar.pt","status":"confirmed"},{"id":"cm_182","cat":"câmara","name":"Câmara Municipal de Lousada","sub":"Porto","email":"geral@cm-lousada.pt","status":"pattern"},{"id":"cm_183","cat":"câmara","name":"Câmara Municipal de Maia","sub":"Porto","email":"geral@cm-maia.pt","status":"pattern"},{"id":"cm_184","cat":"câmara","name":"Câmara Municipal de Marco de Canaveses","sub":"Porto","email":"info@cm-marco-canaveses.pt","status":"confirmed"},{"id":"cm_185","cat":"câmara","name":"Câmara Municipal de Matosinhos","sub":"Porto","email":"geral@cm-matosinhos.pt","status":"pattern"},{"id":"cm_186","cat":"câmara","name":"Câmara Municipal de Paços de Ferreira","sub":"Porto","email":"geral@cm-pacosdeferreira.pt","status":"pattern"},{"id":"cm_187","cat":"câmara","name":"Câmara Municipal de Paredes","sub":"Porto","email":"geral@cm-paredes.pt","status":"pattern"},{"id":"cm_188","cat":"câmara","name":"Câmara Municipal de Penafiel","sub":"Porto","email":"geral@cm-penafiel.pt","status":"pattern"},{"id":"cm_189","cat":"câmara","name":"Câmara Municipal de Porto","sub":"Porto","email":"geral@cm-porto.pt","status":"confirmed"},{"id":"cm_190","cat":"câmara","name":"Câmara Municipal de Póvoa de Varzim","sub":"Porto","email":"geral@cm-pvarzim.pt","status":"pattern"},{"id":"cm_191","cat":"câmara","name":"Câmara Municipal de Santo Tirso","sub":"Porto","email":"geral@cm-stirso.pt","status":"pattern"},{"id":"cm_192","cat":"câmara","name":"Câmara Municipal de Trofa","sub":"Porto","email":"geral@cm-trofa.pt","status":"pattern"},{"id":"cm_193","cat":"câmara","name":"Câmara Municipal de Valongo","sub":"Porto","email":"geral@cm-valongo.pt","status":"pattern"},{"id":"cm_194","cat":"câmara","name":"Câmara Municipal de Vila do Conde","sub":"Porto","email":"geral@cm-viladoconde.pt","status":"pattern"},{"id":"cm_195","cat":"câmara","name":"Câmara Municipal de Vila Nova de Gaia","sub":"Porto","email":"geral@cm-gaia.pt","status":"pattern"},{"id":"cm_196","cat":"câmara","name":"Câmara Municipal de Abrantes","sub":"Santarém","email":"geral@cm-abrantes.pt","status":"pattern"},{"id":"cm_197","cat":"câmara","name":"Câmara Municipal de Alcanena","sub":"Santarém","email":"geral@cm-alcanena.pt","status":"pattern"},{"id":"cm_198","cat":"câmara","name":"Câmara Municipal de Almeirim","sub":"Santarém","email":"geral@cm-almeirim.pt","status":"pattern"},{"id":"cm_199","cat":"câmara","name":"Câmara Municipal de Alpiarça","sub":"Santarém","email":"geral@cm-alpiarca.pt","status":"pattern"},{"id":"cm_200","cat":"câmara","name":"Câmara Municipal de Benavente","sub":"Santarém","email":"geral@cm-benavente.pt","status":"pattern"},{"id":"cm_201","cat":"câmara","name":"Câmara Municipal de Cartaxo","sub":"Santarém","email":"geral@cm-cartaxo.pt","status":"pattern"},{"id":"cm_202","cat":"câmara","name":"Câmara Municipal de Chamusca","sub":"Santarém","email":"geral@cm-chamusca.pt","status":"pattern"},{"id":"cm_203","cat":"câmara","name":"Câmara Municipal de Constância","sub":"Santarém","email":"geral@cm-constancia.pt","status":"pattern"},{"id":"cm_204","cat":"câmara","name":"Câmara Municipal de Coruche","sub":"Santarém","email":"geral@cm-coruche.pt","status":"pattern"},{"id":"cm_205","cat":"câmara","name":"Câmara Municipal de Entroncamento","sub":"Santarém","email":"geral@cm-entroncamento.pt","status":"pattern"},{"id":"cm_206","cat":"câmara","name":"Câmara Municipal de Ferreira do Zêzere","sub":"Santarém","email":"geral@cm-ferreiradozezere.pt","status":"pattern"},{"id":"cm_207","cat":"câmara","name":"Câmara Municipal de Golegã","sub":"Santarém","email":"geral@cm-golega.pt","status":"pattern"},{"id":"cm_208","cat":"câmara","name":"Câmara Municipal de Mação","sub":"Santarém","email":"geral@cm-macao.pt","status":"pattern"},{"id":"cm_209","cat":"câmara","name":"Câmara Municipal de Ourém","sub":"Santarém","email":"geral@cm-ourem.pt","status":"pattern"},{"id":"cm_210","cat":"câmara","name":"Câmara Municipal de Rio Maior","sub":"Santarém","email":"geral@cm-riomaior.pt","status":"pattern"},{"id":"cm_211","cat":"câmara","name":"Câmara Municipal de Salvaterra de Magos","sub":"Santarém","email":"geral@cm-salvaterrademagos.pt","status":"pattern"},{"id":"cm_212","cat":"câmara","name":"Câmara Municipal de Santarém","sub":"Santarém","email":"geral@cm-santarem.pt","status":"pattern"},{"id":"cm_213","cat":"câmara","name":"Câmara Municipal de Sardoal","sub":"Santarém","email":"geral@cm-sardoal.pt","status":"pattern"},{"id":"cm_214","cat":"câmara","name":"Câmara Municipal de Tomar","sub":"Santarém","email":"geral@cm-tomar.pt","status":"pattern"},{"id":"cm_215","cat":"câmara","name":"Câmara Municipal de Torres Novas","sub":"Santarém","email":"geral@cm-torresnovas.pt","status":"pattern"},{"id":"cm_216","cat":"câmara","name":"Câmara Municipal de Vila Nova da Barquinha","sub":"Santarém","email":"geral@cm-vnbarquinha.pt","status":"pattern"},{"id":"cm_217","cat":"câmara","name":"Câmara Municipal de Alcácer do Sal","sub":"Setúbal","email":"geral@cm-alcacerdosal.pt","status":"pattern"},{"id":"cm_218","cat":"câmara","name":"Câmara Municipal de Alcochete","sub":"Setúbal","email":"geral@cm-alcochete.pt","status":"pattern"},{"id":"cm_219","cat":"câmara","name":"Câmara Municipal de Almada","sub":"Setúbal","email":"geral@m-almada.pt","status":"pattern"},{"id":"cm_220","cat":"câmara","name":"Câmara Municipal de Barreiro","sub":"Setúbal","email":"geral@cm-barreiro.pt","status":"pattern"},{"id":"cm_221","cat":"câmara","name":"Câmara Municipal de Grândola","sub":"Setúbal","email":"geral@cm-grandola.pt","status":"pattern"},{"id":"cm_222","cat":"câmara","name":"Câmara Municipal de Moita","sub":"Setúbal","email":"geral@cm-moita.pt","status":"pattern"},{"id":"cm_223","cat":"câmara","name":"Câmara Municipal de Montijo","sub":"Setúbal","email":"geral@cm-montijo.pt","status":"pattern"},{"id":"cm_224","cat":"câmara","name":"Câmara Municipal de Palmela","sub":"Setúbal","email":"geral@cm-palmela.pt","status":"pattern"},{"id":"cm_225","cat":"câmara","name":"Câmara Municipal de Santiago do Cacém","sub":"Setúbal","email":"geral@cm-santiago.pt","status":"pattern"},{"id":"cm_226","cat":"câmara","name":"Câmara Municipal de Seixal","sub":"Setúbal","email":"geral@cm-seixal.pt","status":"pattern"},{"id":"cm_227","cat":"câmara","name":"Câmara Municipal de Sesimbra","sub":"Setúbal","email":"geral@cm-sesimbra.pt","status":"pattern"},{"id":"cm_228","cat":"câmara","name":"Câmara Municipal de Setúbal","sub":"Setúbal","email":"geral@mun-setubal.pt","status":"confirmed"},{"id":"cm_229","cat":"câmara","name":"Câmara Municipal de Sines","sub":"Setúbal","email":"geral@cm-sines.pt","status":"pattern"},{"id":"cm_230","cat":"câmara","name":"Câmara Municipal de Arcos de Valdevez","sub":"Viana do Castelo","email":"geral@cm-arcosdevaldevez.pt","status":"pattern"},{"id":"cm_231","cat":"câmara","name":"Câmara Municipal de Caminha","sub":"Viana do Castelo","email":"geral@cm-caminha.pt","status":"pattern"},{"id":"cm_232","cat":"câmara","name":"Câmara Municipal de Melgaço","sub":"Viana do Castelo","email":"geral@cm-melgaco.pt","status":"pattern"},{"id":"cm_233","cat":"câmara","name":"Câmara Municipal de Monção","sub":"Viana do Castelo","email":"geral@cm-moncao.pt","status":"pattern"},{"id":"cm_234","cat":"câmara","name":"Câmara Municipal de Paredes de Coura","sub":"Viana do Castelo","email":"geral@cm-pcoura.pt","status":"pattern"},{"id":"cm_235","cat":"câmara","name":"Câmara Municipal de Ponte da Barca","sub":"Viana do Castelo","email":"geral@cm-pontedabarca.pt","status":"pattern"},{"id":"cm_236","cat":"câmara","name":"Câmara Municipal de Ponte de Lima","sub":"Viana do Castelo","email":"geral@cm-pontedelima.pt","status":"pattern"},{"id":"cm_237","cat":"câmara","name":"Câmara Municipal de Valença","sub":"Viana do Castelo","email":"geral@cm-valenca.pt","status":"pattern"},{"id":"cm_238","cat":"câmara","name":"Câmara Municipal de Viana do Castelo","sub":"Viana do Castelo","email":"cmviana@cm-viana-castelo.pt","status":"confirmed"},{"id":"cm_239","cat":"câmara","name":"Câmara Municipal de Vila Nova de Cerveira","sub":"Viana do Castelo","email":"geral@cm-vncerveira.pt","status":"pattern"},{"id":"cm_240","cat":"câmara","name":"Câmara Municipal de Alijó","sub":"Vila Real","email":"geral@cm-alijo.pt","status":"pattern"},{"id":"cm_241","cat":"câmara","name":"Câmara Municipal de Boticas","sub":"Vila Real","email":"geral@cm-boticas.pt","status":"pattern"},{"id":"cm_242","cat":"câmara","name":"Câmara Municipal de Chaves","sub":"Vila Real","email":"geral@cm-chaves.pt","status":"pattern"},{"id":"cm_243","cat":"câmara","name":"Câmara Municipal de Mesão Frio","sub":"Vila Real","email":"geral@cm-mesaofrio.pt","status":"pattern"},{"id":"cm_244","cat":"câmara","name":"Câmara Municipal de Mondim de Basto","sub":"Vila Real","email":"geral@cm-mondimdebasto.pt","status":"pattern"},{"id":"cm_245","cat":"câmara","name":"Câmara Municipal de Montalegre","sub":"Vila Real","email":"geral@cm-montalegre.pt","status":"pattern"},{"id":"cm_246","cat":"câmara","name":"Câmara Municipal de Murça","sub":"Vila Real","email":"geral@cm-murca.pt","status":"pattern"},{"id":"cm_247","cat":"câmara","name":"Câmara Municipal de Peso da Régua","sub":"Vila Real","email":"geral@cm-pesoregua.pt","status":"pattern"},{"id":"cm_248","cat":"câmara","name":"Câmara Municipal de Ribeira de Pena","sub":"Vila Real","email":"geral@cm-ribeiradepena.pt","status":"pattern"},{"id":"cm_249","cat":"câmara","name":"Câmara Municipal de Sabrosa","sub":"Vila Real","email":"geral@cm-sabrosa.pt","status":"pattern"},{"id":"cm_250","cat":"câmara","name":"Câmara Municipal de Santa Marta de Penaguião","sub":"Vila Real","email":"geral@cm-smpenaguiao.pt","status":"pattern"},{"id":"cm_251","cat":"câmara","name":"Câmara Municipal de Valpaços","sub":"Vila Real","email":"geral@cm-valpacos.pt","status":"pattern"},{"id":"cm_252","cat":"câmara","name":"Câmara Municipal de Vila Pouca de Aguiar","sub":"Vila Real","email":"geral@cm-vpaguiar.pt","status":"pattern"},{"id":"cm_253","cat":"câmara","name":"Câmara Municipal de Vila Real","sub":"Vila Real","email":"geral@cm-vilareal.pt","status":"pattern"},{"id":"cm_254","cat":"câmara","name":"Câmara Municipal de Armamar","sub":"Viseu","email":"geral@cm-armamar.pt","status":"pattern"},{"id":"cm_255","cat":"câmara","name":"Câmara Municipal de Carregal do Sal","sub":"Viseu","email":"geral@cm-carregal.pt","status":"pattern"},{"id":"cm_256","cat":"câmara","name":"Câmara Municipal de Castro Daire","sub":"Viseu","email":"geral@cm-castrodaire.pt","status":"pattern"},{"id":"cm_257","cat":"câmara","name":"Câmara Municipal de Cinfães","sub":"Viseu","email":"geral@cm-cinfaes.pt","status":"pattern"},{"id":"cm_258","cat":"câmara","name":"Câmara Municipal de Lamego","sub":"Viseu","email":"geral@cm-lamego.pt","status":"pattern"},{"id":"cm_259","cat":"câmara","name":"Câmara Municipal de Mangualde","sub":"Viseu","email":"geral@cm-mangualde.pt","status":"pattern"},{"id":"cm_260","cat":"câmara","name":"Câmara Municipal de Moimenta da Beira","sub":"Viseu","email":"geral@cm-moimenta-beira.pt","status":"pattern"},{"id":"cm_261","cat":"câmara","name":"Câmara Municipal de Mortágua","sub":"Viseu","email":"geral@cm-mortagua.pt","status":"pattern"},{"id":"cm_262","cat":"câmara","name":"Câmara Municipal de Nelas","sub":"Viseu","email":"geral@cm-nelas.pt","status":"pattern"},{"id":"cm_263","cat":"câmara","name":"Câmara Municipal de Oliveira de Frades","sub":"Viseu","email":"geral@cm-ofrades.pt","status":"pattern"},{"id":"cm_264","cat":"câmara","name":"Câmara Municipal de Penalva do Castelo","sub":"Viseu","email":"geral@cm-penalvadocastelo.pt","status":"pattern"},{"id":"cm_265","cat":"câmara","name":"Câmara Municipal de Penedono","sub":"Viseu","email":"geral@cm-penedono.pt","status":"pattern"},{"id":"cm_266","cat":"câmara","name":"Câmara Municipal de Resende","sub":"Viseu","email":"geral@cm-resende.pt","status":"pattern"},{"id":"cm_267","cat":"câmara","name":"Câmara Municipal de Santa Comba Dão","sub":"Viseu","email":"geral@cm-santacombadao.pt","status":"pattern"},{"id":"cm_268","cat":"câmara","name":"Câmara Municipal de São João da Pesqueira","sub":"Viseu","email":"geral@cm-sjpesqueira.pt","status":"pattern"},{"id":"cm_269","cat":"câmara","name":"Câmara Municipal de São Pedro do Sul","sub":"Viseu","email":"geral@cm-spsul.pt","status":"pattern"},{"id":"cm_270","cat":"câmara","name":"Câmara Municipal de Sátão","sub":"Viseu","email":"geral@cm-satao.pt","status":"pattern"},{"id":"cm_271","cat":"câmara","name":"Câmara Municipal de Sernancelhe","sub":"Viseu","email":"geral@cm-sernancelhe.pt","status":"pattern"},{"id":"cm_272","cat":"câmara","name":"Câmara Municipal de Tabuaço","sub":"Viseu","email":"geral@cm-tabuaco.pt","status":"pattern"},{"id":"cm_273","cat":"câmara","name":"Câmara Municipal de Tarouca","sub":"Viseu","email":"geral@cm-tarouca.pt","status":"pattern"},{"id":"cm_274","cat":"câmara","name":"Câmara Municipal de Tondela","sub":"Viseu","email":"geral@cm-tondela.pt","status":"pattern"},{"id":"cm_275","cat":"câmara","name":"Câmara Municipal de Vila Nova de Paiva","sub":"Viseu","email":"geral@cm-vnpaiva.pt","status":"pattern"},{"id":"cm_276","cat":"câmara","name":"Câmara Municipal de Viseu","sub":"Viseu","email":"geral@cmviseu.pt","status":"confirmed"},{"id":"cm_277","cat":"câmara","name":"Câmara Municipal de Vouzela","sub":"Viseu","email":"geral@cm-vouzela.pt","status":"pattern"},{"id":"cm_az1","cat":"câmara","name":"Câmara Municipal de Ponta Delgada","sub":"Açores — São Miguel","email":"geral@cm-pontadelgada.pt","status":"pattern"},{"id":"cm_az2","cat":"câmara","name":"Câmara Municipal de Lagoa","sub":"Açores — São Miguel","email":"geral@cm-lagoa-acores.pt","status":"pattern"},{"id":"cm_az3","cat":"câmara","name":"Câmara Municipal de Ribeira Grande","sub":"Açores — São Miguel","email":"geral@cm-ribeiragrande.pt","status":"pattern"},{"id":"cm_az4","cat":"câmara","name":"Câmara Municipal de Vila Franca do Campo","sub":"Açores — São Miguel","email":"geral@cm-vfc.pt","status":"pattern"},{"id":"cm_az5","cat":"câmara","name":"Câmara Municipal de Nordeste","sub":"Açores — São Miguel","email":"geral@cm-nordeste.pt","status":"pattern"},{"id":"cm_az6","cat":"câmara","name":"Câmara Municipal de Povoação","sub":"Açores — São Miguel","email":"geral@cm-povoacao.pt","status":"pattern"},{"id":"cm_az7","cat":"câmara","name":"Câmara Municipal de Angra do Heroísmo","sub":"Açores — Terceira","email":"geral@cm-angra.pt","status":"pattern"},{"id":"cm_az8","cat":"câmara","name":"Câmara Municipal de Praia da Vitória","sub":"Açores — Terceira","email":"geral@cm-praia.pt","status":"pattern"},{"id":"cm_az9","cat":"câmara","name":"Câmara Municipal de Horta","sub":"Açores — Faial","email":"geral@cm-horta.pt","status":"pattern"},{"id":"cm_az10","cat":"câmara","name":"Câmara Municipal da Madalena","sub":"Açores — Pico","email":"geral@cm-madalena.pt","status":"pattern"},{"id":"cm_az11","cat":"câmara","name":"Câmara Municipal de São Roque do Pico","sub":"Açores — Pico","email":"geral@cm-sroque.pt","status":"pattern"},{"id":"cm_az12","cat":"câmara","name":"Câmara Municipal das Lajes do Pico","sub":"Açores — Pico","email":"geral@cm-lajesdopico.pt","status":"pattern"},{"id":"cm_az13","cat":"câmara","name":"Câmara Municipal de Velas","sub":"Açores — São Jorge","email":"geral@cm-velas.pt","status":"pattern"},{"id":"cm_az14","cat":"câmara","name":"Câmara Municipal de Calheta","sub":"Açores — São Jorge","email":"geral@cm-calheta-sjorge.pt","status":"pattern"},{"id":"cm_az15","cat":"câmara","name":"Câmara Municipal de Santa Cruz da Graciosa","sub":"Açores — Graciosa","email":"geral@cm-graciosa.pt","status":"pattern"},{"id":"cm_az16","cat":"câmara","name":"Câmara Municipal de Vila do Porto","sub":"Açores — Santa Maria","email":"geral@cm-viladoporto.pt","status":"pattern"},{"id":"cm_az17","cat":"câmara","name":"Câmara Municipal das Lajes das Flores","sub":"Açores — Flores","email":"geral@cm-lajesdaflores.pt","status":"pattern"},{"id":"cm_az18","cat":"câmara","name":"Câmara Municipal de Santa Cruz das Flores","sub":"Açores — Flores","email":"geral@cm-flores.pt","status":"pattern"},{"id":"cm_az19","cat":"câmara","name":"Câmara Municipal de Corvo","sub":"Açores — Corvo","email":"geral@cm-corvo.pt","status":"pattern"},{"id":"cm_ma1","cat":"câmara","name":"Câmara Municipal do Funchal","sub":"Madeira — capital","email":"geral@cm-funchal.pt","status":"pattern"},{"id":"cm_ma2","cat":"câmara","name":"Câmara Municipal de Câmara de Lobos","sub":"Madeira","email":"geral@cm-camaradelobos.pt","status":"pattern"},{"id":"cm_ma3","cat":"câmara","name":"Câmara Municipal de Ribeira Brava","sub":"Madeira","email":"geral@cm-ribeirabrava.pt","status":"pattern"},{"id":"cm_ma4","cat":"câmara","name":"Câmara Municipal de Ponta do Sol","sub":"Madeira","email":"geral@cm-pontadosol.pt","status":"pattern"},{"id":"cm_ma5","cat":"câmara","name":"Câmara Municipal da Calheta","sub":"Madeira","email":"geral@cm-calheta-madeira.pt","status":"pattern"},{"id":"cm_ma6","cat":"câmara","name":"Câmara Municipal de Porto Moniz","sub":"Madeira","email":"geral@cm-portomoniz.pt","status":"pattern"},{"id":"cm_ma7","cat":"câmara","name":"Câmara Municipal de São Vicente","sub":"Madeira","email":"geral@cm-saovicente-mad.pt","status":"pattern"},{"id":"cm_ma8","cat":"câmara","name":"Câmara Municipal de Santana","sub":"Madeira","email":"geral@cm-santana-mad.pt","status":"pattern"},{"id":"cm_ma9","cat":"câmara","name":"Câmara Municipal de Machico","sub":"Madeira","email":"geral@cm-machico.pt","status":"pattern"},{"id":"cm_ma10","cat":"câmara","name":"Câmara Municipal de Santa Cruz","sub":"Madeira","email":"geral@cm-santacruz-mad.pt","status":"pattern"},{"id":"cm_ma11","cat":"câmara","name":"Câmara Municipal do Porto Santo","sub":"Madeira — island","email":"geral@cm-portosanto.pt","status":"pattern"}];
+
+// ─── State ───
+const LS_KEY = 'gm_outreach_sent_v1';
+const DEFAULT_SENT = ['m1','m2','m3'];
+let sentSet = new Set();
+let activeFilter = 'all';
+let searchQuery = '';
+let activeTpl = 0;
+
+// ─── localStorage ───
+function loadSent() {
+  const v = localStorage.getItem(LS_KEY);
+  sentSet = v !== null ? new Set(JSON.parse(v)) : new Set(DEFAULT_SENT);
+  if (v === null) saveSent();
+}
+function saveSent() {
+  localStorage.setItem(LS_KEY, JSON.stringify([...sentSet]));
+}
+
+// ─── Actions ───
+function toggleSent(id) {
+  sentSet.has(id) ? sentSet.delete(id) : sentSet.add(id);
+  saveSent();
+  render();
+}
+function resetAll() {
+  if (!confirm('Mark all entries as unsent? This will clear all sent state.')) return;
+  sentSet.clear();
+  saveSent();
+  render();
+}
+function setFilter(f) {
+  activeFilter = f;
+  render();
+}
+function setSearch(v) {
+  searchQuery = v.toLowerCase();
+  render();
+}
+function toggleTpl() {
+  document.getElementById('ttoggle').classList.toggle('open');
+  document.getElementById('tbody2').classList.toggle('open');
+}
+function setTplTab(i) {
+  activeTpl = i;
+  renderTpl();
+}
+
+// ─── Utils ───
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function copyText(text, btn, label) {
+  navigator.clipboard.writeText(text).then(() => {
+    const o = btn.textContent;
+    btn.textContent = label;
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 2000);
+  }).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const o = btn.textContent;
+    btn.textContent = label;
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ─── Render ───
+function render() {
+  renderStats();
+  updateFilterBtns();
+  renderTable();
+}
+
+function renderStats() {
+  document.getElementById('sv-total').textContent = entries.length;
+  document.getElementById('sv-sent').textContent = sentSet.size;
+  document.getElementById('sv-rem').textContent = entries.length - sentSet.size;
+}
+
+function updateFilterBtns() {
+  const actMap = {
+    'all':'act-a','unsent':'act-a',
+    'câmara':'act-c','motel':'act-m','company':'act-co',
+    'cultural':'act-cu','hotel':'act-h','junta':'act-j'
+  };
+  document.querySelectorAll('.fbtn').forEach(btn => {
+    btn.className = 'fbtn';
+    if (btn.dataset.f === activeFilter) btn.classList.add(actMap[activeFilter]);
+  });
+}
+
+function filteredEntries() {
+  const q = searchQuery;
+  return entries.filter(e => {
+    if (activeFilter === 'unsent' && sentSet.has(e.id)) return false;
+    if (activeFilter !== 'all' && activeFilter !== 'unsent' && e.cat !== activeFilter) return false;
+    if (q) {
+      const hay = (e.name + ' ' + e.sub + ' ' + e.email).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderTable() {
+  const filtered = filteredEntries();
+  const tb = document.getElementById('tb');
+  const nores = document.getElementById('nores');
+  if (!filtered.length) { tb.innerHTML = ''; nores.style.display = ''; return; }
+  nores.style.display = 'none';
+
+  const groups = {};
+  CAT_ORDER.forEach(c => groups[c] = []);
+  filtered.forEach(e => { if (groups[e.cat]) groups[e.cat].push(e); });
+
+  let html = '';
+  let firstGroup = true;
+  CAT_ORDER.forEach(cat => {
+    const grp = groups[cat];
+    if (!grp.length) return;
+    const col = CAT_COLOR[cat];
+    const unsent = grp.filter(e => !sentSet.has(e.id)).length;
+    html += `<tr class="gh${firstGroup?' first':''}">
+      <td colspan="6" style="color:${col}">${esc(CAT_NAME[cat])}<span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0"> — ${unsent} unsent / ${grp.length} total</span></td>
+    </tr>`;
+    firstGroup = false;
+    grp.forEach(e => {
+      const sent = sentSet.has(e.id);
+      const c2 = CAT_COLOR[e.cat];
+      html += `<tr class="er${sent?' sent':''}">
+        <td class="cc"><input type="checkbox" class="eck"${sent?' checked':''} onchange="toggleSent('${e.id}')"></td>
+        <td><div class="en">${esc(e.name)}</div><div class="es">${esc(e.sub)}</div></td>
+        <td class="ce"><span class="ee">${esc(e.email)}</span></td>
+        <td class="cbadge"><span class="badge" style="background:${c2}22;color:${c2};border:1px solid ${c2}44">${CAT_LABEL[e.cat]}</span></td>
+        <td class="cst"><span class="badge s-${e.status}">${e.status}</span></td>
+        <td class="ccp"><button class="btn-cr" data-email="${esc(e.email)}" onclick="copyEmail(this)">copy</button></td>
+      </tr>`;
+    });
+  });
+  tb.innerHTML = html;
+}
+
+function copyEmail(btn) {
+  copyText(btn.dataset.email, btn, 'copied!');
+}
+
+function renderTpl() {
+  let tabs = '';
+  TEMPLATES.forEach((t, i) => {
+    tabs += `<button class="ttab${i===activeTpl?' on':''}" onclick="setTplTab(${i})">${esc(t.label)}</button>`;
+  });
+  document.getElementById('ttabs').innerHTML = tabs;
+  const t = TEMPLATES[activeTpl];
+  document.getElementById('tcontent').innerHTML = `
+    <div class="theater">
+      <div class="tsubj">Subject: ${esc(t.subject)}</div>
+      <button class="btn-ctpl" onclick="copyTpl(this)">Copy</button>
+    </div>
+    <div class="ttext">${esc(t.body)}</div>`;
+}
+
+function copyTpl(btn) {
+  const t = TEMPLATES[activeTpl];
+  copyText('Subject: ' + t.subject + '\n\n' + t.body, btn, 'Copied!');
+}
+
+// ─── Init ───
+loadSent();
+renderTpl();
+render();
+</script>
+</body>
+</html>
