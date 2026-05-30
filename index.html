@@ -252,12 +252,12 @@ function copyText(text, btn, label) {
   }).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none';
     document.body.appendChild(ta);
     ta.select();
-    document.execCommand('copy');
+    const ok = document.execCommand('copy');
     document.body.removeChild(ta);
+    if (!ok) return;
     const o = btn.textContent;
     btn.textContent = label;
     btn.classList.add('copied');
@@ -273,8 +273,11 @@ function render() {
 }
 
 function renderStats() {
-  const total = entries.length;
-  const sent = entries.filter(e => sentSet.has(e.id)).length;
+  const pool = (activeFilter === 'all' || activeFilter === 'unsent')
+    ? entries
+    : entries.filter(e => e.cat === activeFilter);
+  const total = pool.length;
+  const sent = pool.filter(e => sentSet.has(e.id)).length;
   document.getElementById('sv-total').textContent = total;
   document.getElementById('sv-sent').textContent = sent;
   document.getElementById('sv-rem').textContent = total - sent;
@@ -331,7 +334,7 @@ function renderTable() {
       const sent = sentSet.has(e.id);
       const c2 = CAT_COLOR[e.cat];
       html += `<tr class="er${sent?' sent':''}">
-        <td class="cc"><input type="checkbox" class="eck"${sent?' checked':''} onchange="toggleSent('${e.id}')"></td>
+        <td class="cc"><input type="checkbox" class="eck"${sent?' checked':''} data-id="${esc(e.id)}" onchange="toggleSent(this.dataset.id)"></td>
         <td><div class="en">${esc(e.name)}</div><div class="es">${esc(e.sub)}</div></td>
         <td class="ce"><span class="ee">${esc(e.email)}</span></td>
         <td class="cbadge"><span class="badge" style="background:${c2}22;color:${c2};border:1px solid ${c2}44">${CAT_LABEL[e.cat]}</span></td>
