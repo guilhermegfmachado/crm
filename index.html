@@ -106,6 +106,44 @@ table{width:100%;border-collapse:collapse}
 .warn b{color:#f0d9a8;font-weight:600}
 .warn-x{margin-left:auto;flex:0 0 auto;background:transparent;border:none;color:#e9c98a;opacity:.6;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;transition:opacity .15s}
 .warn-x:hover{opacity:1}
+
+@media (max-width:640px) {
+  /* Header: tighten, keep on one line at small sizes */
+  .hdr{padding:10px 14px;gap:6px}
+  .hdr-right{gap:10px}
+  .stat-val{font-size:15px}
+  .stats{gap:8px}
+  .stat-sep{height:18px}
+  .btn-reset{font-size:10px;padding:5px 9px}
+
+  /* Warning: flush to edges on mobile */
+  .warn{border-radius:0;border-left:none;border-right:none;font-size:11.5px}
+
+  /* Controls: search drops to full-width second line */
+  .ctrl{padding:8px 14px}
+  .csep{display:none}
+  .sort-btn{margin-left:0}
+  .search{width:100%;margin-left:0;flex-basis:100%;order:10}
+
+  /* Template panel */
+  .ttoggle{padding:10px 14px}
+  .tbody2{padding:0 14px 12px}
+  .ttabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* Table: flush container, hide columns that duplicate info */
+  .twrap{padding:0 0 48px}
+  .gh td{padding:10px 14px 4px}
+  .er td{padding:9px 14px}
+  .ce{display:none}     /* email hidden — still in copy btn data-email */
+  .cbadge{display:none} /* category — already shown in group header */
+  .cst{display:none}    /* status — secondary, hidden on mobile */
+
+  /* Larger touch targets */
+  .eck{width:18px;height:18px}
+  .btn-cr{padding:8px 12px;font-size:10px}
+  .ccp{width:56px}
+  .fbtn{padding:6px 11px}
+}
 </style>
 </head>
 <body>
