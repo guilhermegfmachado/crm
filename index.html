@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Personal outreach CRM — translation services.">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Outreach CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0d11'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23d4a853'%3E✉%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -161,32 +163,32 @@ table{width:100%;border-collapse:collapse}
       <div class="stat-sep"></div>
       <div class="stat"><div class="stat-val" id="sv-rem">—</div><div class="stat-lbl">Remaining</div></div>
     </div>
-    <button class="btn-reset" onclick="resetAll()">Reset All</button>
+    <button type="button" class="btn-reset" onclick="resetAll()">Reset All</button>
   </div>
 </header>
 
 <div class="warn" id="warn">
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
   <div><b>Pace your sends.</b> Gmail caps free accounts at ~500 emails/day and flags bulk identical messages as spam — too many at once can suspend your account. Send in small batches (~20–40/day), personalise each one, and never paste the same text to dozens of recipients back-to-back. Sending from your own address one-by-one (not BCC blasts) keeps you out of spam folders.</div>
-  <button class="warn-x" onclick="dismissWarn()" title="Dismiss" aria-label="Dismiss">&times;</button>
+  <button type="button" class="warn-x" onclick="dismissWarn()" title="Dismiss" aria-label="Dismiss">&times;</button>
 </div>
 
 <div class="ctrl">
-  <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
-  <button class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
+  <button type="button" class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
+  <button type="button" class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
   <div class="csep"></div>
-  <button class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
-  <button class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
-  <button class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
-  <button class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
-  <button class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
-  <button class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
-  <button class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
+  <button type="button" class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
+  <button type="button" class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
+  <button type="button" class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
+  <button type="button" class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
+  <button type="button" class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
+  <button type="button" class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
+  <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
   <input type="search" class="search" id="search" placeholder="Search…" oninput="setSearch(this.value)">
 </div>
 
 <div class="tpanel">
-  <button class="ttoggle open" id="ttoggle" onclick="toggleTpl()">
+  <button type="button" class="ttoggle open" id="ttoggle" onclick="toggleTpl()">
     Email Templates
     <svg class="tchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </button>
@@ -405,7 +407,7 @@ function renderTable() {
       <td class="ce"><span class="ee">${esc(e.email)}</span></td>
       <td class="cbadge"><span class="badge" style="background:${c2}22;color:${c2};border:1px solid ${c2}44">${CAT_LABEL[e.cat]}</span></td>
       <td class="cst"><span class="badge s-${e.status}">${e.status}</span></td>
-      <td class="ccp"><button class="btn-cr" data-email="${esc(e.email)}" onclick="copyEmail(this)">copy</button></td>
+      <td class="ccp"><button type="button" class="btn-cr" data-email="${esc(e.email)}" onclick="copyEmail(this)">copy</button></td>
     </tr>`;
   }
 
@@ -446,14 +448,14 @@ function copyEmail(btn) {
 function renderTpl() {
   let tabs = '';
   TEMPLATES.forEach((t, i) => {
-    tabs += `<button class="ttab${i===activeTpl?' on':''}" onclick="setTplTab(${i})">${esc(t.label)}</button>`;
+    tabs += `<button type="button" class="ttab${i===activeTpl?' on':''}" onclick="setTplTab(${i})">${esc(t.label)}</button>`;
   });
   document.getElementById('ttabs').innerHTML = tabs;
   const t = TEMPLATES[activeTpl];
   document.getElementById('tcontent').innerHTML = `
     <div class="theater">
       <div class="tsubj">Subject: ${esc(t.subject)}</div>
-      <button class="btn-ctpl" onclick="copyTpl(this)">Copy</button>
+      <button type="button" class="btn-ctpl" onclick="copyTpl(this)">Copy</button>
     </div>
     <div class="ttext">${esc(t.body)}</div>`;
 }
