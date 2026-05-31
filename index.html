@@ -96,6 +96,11 @@ table{width:100%;border-collapse:collapse}
 .btn-cr:hover{border-color:var(--border-hover);color:var(--text)}
 .btn-cr.copied{color:var(--accent);border-color:var(--accent)}
 #nores{text-align:center;padding:48px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+.warn{display:flex;align-items:flex-start;gap:10px;margin:0 0 16px;padding:11px 14px;background:rgba(232,162,58,.07);border:1px solid rgba(232,162,58,.28);border-radius:6px;font-size:12px;line-height:1.5;color:#e9c98a}
+.warn svg{flex:0 0 auto;margin-top:1px;color:#e8a23a}
+.warn b{color:#f0d9a8;font-weight:600}
+.warn-x{margin-left:auto;flex:0 0 auto;background:transparent;border:none;color:#e9c98a;opacity:.6;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;transition:opacity .15s}
+.warn-x:hover{opacity:1}
 </style>
 </head>
 <body>
@@ -116,6 +121,12 @@ table{width:100%;border-collapse:collapse}
     <button class="btn-reset" onclick="resetAll()">Reset All</button>
   </div>
 </header>
+
+<div class="warn" id="warn">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+  <div><b>Pace your sends.</b> Gmail caps free accounts at ~500 emails/day and flags bulk identical messages as spam — too many at once can suspend your account. Send in small batches (~20–40/day), personalise each one, and never paste the same text to dozens of recipients back-to-back. Sending from your own address one-by-one (not BCC blasts) keeps you out of spam folders.</div>
+  <button class="warn-x" onclick="dismissWarn()" title="Dismiss" aria-label="Dismiss">&times;</button>
+</div>
 
 <div class="ctrl">
   <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
@@ -215,6 +226,16 @@ function toggleSent(id) {
   sentSet.has(id) ? sentSet.delete(id) : sentSet.add(id);
   saveSent();
   render();
+}
+function dismissWarn() {
+  document.getElementById('warn').style.display = 'none';
+  try { localStorage.setItem('gm_warn_dismissed', '1'); } catch(e) {}
+}
+function initWarn() {
+  try {
+    if (localStorage.getItem('gm_warn_dismissed') === '1')
+      document.getElementById('warn').style.display = 'none';
+  } catch(e) {}
 }
 function resetAll() {
   if (!confirm('Mark all entries as unsent? This will clear all sent state.')) return;
@@ -372,6 +393,7 @@ function copyTpl(btn) {
 
 // ─── Init ───
 loadSent();
+initWarn();
 renderTpl();
 render();
 </script>
