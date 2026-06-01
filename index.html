@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Personal outreach CRM — translation services.">
 <meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'">
 <title>Outreach CRM</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0d11'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23d4a853'%3E✉%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -112,6 +113,9 @@ table{width:100%;border-collapse:collapse}
 .warn-x{margin-left:auto;flex:0 0 auto;background:transparent;border:none;color:#e9c98a;opacity:.6;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;transition:opacity .15s}
 .warn-x:hover{opacity:1}
 
+@media (prefers-reduced-motion:reduce) {
+  *{transition:none!important;animation:none!important}
+}
 @media (max-width:640px) {
   /* Header: tighten, keep on one line at small sizes */
   .hdr{padding:10px 14px;gap:6px}
