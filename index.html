@@ -96,6 +96,95 @@ table{width:100%;border-collapse:collapse}
 .btn-cr:hover{border-color:var(--border-hover);color:var(--text)}
 .btn-cr.copied{color:var(--accent);border-color:var(--accent)}
 #nores{text-align:center;padding:48px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+.sort-btn{font-family:'DM Mono',monospace;font-size:11px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:4px;cursor:pointer;transition:all .15s;margin-left:auto;white-space:nowrap}
+.sort-btn:hover{border-color:var(--border-hover);color:var(--text)}
+.sort-btn.active{border-color:var(--accent);color:var(--accent)}
+.prank{display:inline-block;min-width:22px;text-align:right;font-size:10px;color:var(--muted);margin-right:6px;font-variant-numeric:tabular-nums}
+.warn{display:flex;align-items:flex-start;gap:10px;margin:0 0 16px;padding:11px 14px;background:rgba(232,162,58,.07);border:1px solid rgba(232,162,58,.28);border-radius:6px;font-size:12px;line-height:1.5;color:#e9c98a}
+.warn svg{flex:0 0 auto;margin-top:1px;color:#e8a23a}
+.warn b{color:#f0d9a8;font-weight:600}
+.warn-x{margin-left:auto;flex:0 0 auto;background:transparent;border:none;color:#e9c98a;opacity:.6;cursor:pointer;font-size:15px;line-height:1;padding:0 2px;transition:opacity .15s}
+.warn-x:hover{opacity:1}
+
+@media (prefers-reduced-motion:reduce) {
+  *{transition:none!important;animation:none!important}
+}
+@media (max-width:640px) {
+  /* Header: tighten, keep on one line at small sizes */
+  .hdr{padding:10px 14px;gap:6px}
+  .hdr-right{gap:10px}
+  .stat-val{font-size:15px}
+  .stats{gap:8px}
+  .stat-sep{height:18px}
+  .btn-reset{font-size:10px;padding:5px 9px}
+
+  /* Warning: flush to edges on mobile */
+  .warn{border-radius:0;border-left:none;border-right:none;font-size:11.5px}
+
+  /* Controls: search drops to full-width second line */
+  .ctrl{padding:8px 14px}
+  .csep{display:none}
+  .sort-btn{margin-left:0}
+  .search{width:100%;margin-left:0;flex-basis:100%;order:10}
+
+  /* Template panel */
+  .ttoggle{padding:10px 14px}
+  .tbody2{padding:0 14px 12px}
+  .ttabs{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* Table: flush container, hide columns that duplicate info */
+  .twrap{padding:0 0 48px}
+  .gh td{padding:10px 14px 4px}
+  .er td{padding:9px 14px}
+  .ce{display:none}     /* email hidden — still in copy btn data-email */
+  .cbadge{display:none} /* category — already shown in group header */
+  .cst{display:none}    /* status — secondary, hidden on mobile */
+  .ctrl-oc{padding:5px 14px}
+  .sig-row{gap:4px}
+  .note-ta{max-width:100%}
+
+  /* Larger touch targets */
+  .eck{width:18px;height:18px}
+  .btn-cr{padding:8px 12px;font-size:10px}
+  .ccp{width:56px}
+  .fbtn{padding:6px 11px}
+}
+
+/* Outcomes */
+.odot{display:block;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--border);cursor:pointer;margin:4px auto 0;flex-shrink:0;transition:transform .1s}
+.odot:hover{transform:scale(1.3)}
+.odot-sm{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
+/* Outcome filter bar */
+.ctrl-oc{display:flex;align-items:center;gap:4px;padding:5px 24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.oc-lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;padding-right:4px}
+.obtn{font-family:'DM Sans',sans-serif;font-size:11px;background:transparent;border:1px solid transparent;color:var(--muted);padding:3px 9px;border-radius:4px;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;white-space:nowrap}
+.obtn:hover{color:var(--text);border-color:var(--border)}
+.obtn.oa{border-color:var(--border-hover);color:var(--text);background:rgba(255,255,255,.05)}
+/* Notes */
+.note-icon{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0 3px;line-height:1;opacity:.45;transition:opacity .15s;vertical-align:middle}
+.note-icon:hover{opacity:1}
+.note-has{opacity:.9;color:var(--accent)}
+.note-preview{font-size:10px;color:var(--muted);margin-top:2px;font-style:italic;line-height:1.4;max-width:340px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-edit{margin-top:5px}
+.note-ta{width:100%;max-width:380px;min-height:50px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'DM Sans',sans-serif;font-size:12px;border-radius:3px;padding:5px 8px;resize:vertical;line-height:1.5}
+.note-ta:focus{outline:none;border-color:var(--border-hover)}
+/* Settings panel */
+.sig-row{display:flex;gap:8px;flex-wrap:wrap;padding:4px 0 8px}
+.sig-inp{font-family:'DM Mono',monospace;font-size:11px;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:5px 10px;border-radius:4px;flex:1;min-width:140px;transition:border-color .15s}
+.sig-inp:focus{outline:none;border-color:var(--border-hover)}
+.sig-inp::placeholder{color:var(--muted)}
+.sig-hint{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);padding-bottom:4px}
+/* Bulk mark */
+.btn-markall{font-family:'DM Mono',monospace;font-size:9px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:3px;cursor:pointer;margin-left:10px;transition:all .15s;text-transform:none;letter-spacing:0;font-weight:400;vertical-align:middle}
+.btn-markall:hover{border-color:var(--accent-dim);color:var(--accent)}
+/* Mailto + note buttons in ccp */
+.btn-mailto{border-color:rgba(110,168,232,.25);color:rgba(110,168,232,.6)}
+.btn-mailto:hover{border-color:#6ea8e8;color:#6ea8e8}
+.btn-note{border-color:transparent;color:var(--muted)}
+.btn-note:hover{border-color:var(--border);color:var(--text)}
+/* CSV button */
+.btn-csv{font-family:'DM Mono',monospace;font-size:11px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:6px 10px;border-radius:4px;cursor:pointer;transition:all .15s}
+.btn-csv:hover{border-color:var(--border-hover);color:var(--text)}
 </style>
 </head>
 <body>
@@ -103,7 +192,7 @@ table{width:100%;border-collapse:collapse}
 <header class="hdr">
   <div>
     <div class="hdr-title">Outreach CRM</div>
-    <div class="hdr-sub">guilhermegfmachado@gmail.com — Translation Services</div>
+    <div class="hdr-sub">EN↔PT Translation Services</div>
   </div>
   <div class="hdr-right">
     <div class="stats">
@@ -112,8 +201,11 @@ table{width:100%;border-collapse:collapse}
       <div class="stat"><div class="stat-val" id="sv-sent">—</div><div class="stat-lbl">Sent</div></div>
       <div class="stat-sep"></div>
       <div class="stat"><div class="stat-val" id="sv-rem">—</div><div class="stat-lbl">Remaining</div></div>
+      <div class="stat-sep"></div>
+      <div class="stat"><div class="stat-val" id="sv-today">0</div><div class="stat-lbl">Today</div></div>
     </div>
-    <button class="btn-reset" onclick="resetAll()">Reset All</button>
+    <button type="button" class="btn-csv" onclick="exportCSV()" title="Export all contacts to CSV">CSV ↓</button>
+    <button type="button" class="btn-reset" onclick="resetAll()">Reset All</button>
   </div>
 </header>
 
@@ -121,13 +213,25 @@ table{width:100%;border-collapse:collapse}
   <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
   <button class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
   <div class="csep"></div>
-  <button class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
-  <button class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
-  <button class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
-  <button class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
-  <button class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
-  <button class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
+  <button type="button" class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
+  <button type="button" class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
+  <button type="button" class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
+  <button type="button" class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
+  <button type="button" class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
+  <button type="button" class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
+  <button type="button" class="fbtn" data-f="flagged" onclick="setFilter('flagged')">⚠ Flagged</button>
+  <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
   <input type="search" class="search" id="search" placeholder="Search…" oninput="setSearch(this.value)">
+</div>
+
+<div class="ctrl-oc">
+  <span class="oc-lbl">Outcome:</span>
+  <button type="button" class="obtn oa" data-o="" onclick="setOutcomeFilter('')">all</button>
+  <button type="button" class="obtn" data-o="replied" onclick="setOutcomeFilter('replied')"><span class="odot-sm" style="background:#6ea8e8"></span>replied</button>
+  <button type="button" class="obtn" data-o="interested" onclick="setOutcomeFilter('interested')"><span class="odot-sm" style="background:#4ec97a"></span>interested</button>
+  <button type="button" class="obtn" data-o="declined" onclick="setOutcomeFilter('declined')"><span class="odot-sm" style="background:#e06f6f"></span>declined</button>
+  <button type="button" class="obtn" data-o="bounced" onclick="setOutcomeFilter('bounced')"><span class="odot-sm" style="background:#e8a23a"></span>bounced</button>
+  <button type="button" class="obtn" data-o="followup" onclick="setOutcomeFilter('followup')"><span class="odot-sm" style="background:#a07ede"></span>follow up</button>
 </div>
 
 <div class="tpanel">
@@ -138,6 +242,21 @@ table{width:100%;border-collapse:collapse}
   <div class="tbody2 open" id="tbody2">
     <div class="ttabs" id="ttabs"></div>
     <div class="tcontent" id="tcontent"></div>
+  </div>
+</div>
+
+<div class="tpanel">
+  <button type="button" class="ttoggle" id="sigtoggle" onclick="toggleSig()">
+    Settings — Signature &amp; Templates
+    <svg class="tchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  </button>
+  <div class="tbody2" id="sigbody">
+    <div class="sig-row">
+      <input type="text"  class="sig-inp" id="sig-name"  placeholder="Your name"              oninput="saveSig()">
+      <input type="email" class="sig-inp" id="sig-email" placeholder="your@email.com"          oninput="saveSig()">
+      <input type="url"   class="sig-inp" id="sig-url"   placeholder="Portfolio URL (optional)" oninput="saveSig()">
+    </div>
+    <div class="sig-hint">Auto-fills [your name], [your@email.com] and [your portfolio URL] when copying or opening a template. Stored locally in your browser.</div>
   </div>
 </div>
 
@@ -157,32 +276,32 @@ const TEMPLATES = [
   {
     label:'Câmara Municipal',
     subject:'Tradutor EN↔PT — disponível para colaboração',
-    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso o município necessite de apoio em tradução EN↔PT — para conteúdos de turismo, candidaturas europeias, correspondência internacional ou outros documentos — estou disponível para colaborar, por ajuste direto ou concurso público. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+    body:'Exmo(a). Sr(a).,\n\nChamo-me [your name] e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso o município necessite de apoio em tradução EN↔PT — para conteúdos de turismo, candidaturas europeias, correspondência internacional ou outros documentos — estou disponível para colaborar, por ajuste direto ou concurso público. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos e adequados à dimensão do projeto.\n\n[your portfolio URL]\n\nCom os melhores cumprimentos,\n[your name · your@email.com]'
   },
   {
     label:'Motel',
     subject:'Tradução EN↔PT — website e comunicações',
-    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que não existe versão em inglês — ou que a versão existente pode beneficiar de uma revisão profissional.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Num setor que recebe cada vez mais hóspedes internacionais, uma tradução profissional do website, dos materiais de reserva e das comunicações com clientes faz toda a diferença. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\nGuilherme Machado\nguilhermegfmachado@gmail.com'
+    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que não existe versão em inglês — ou que a versão existente pode beneficiar de uma revisão profissional.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Num setor que recebe cada vez mais hóspedes internacionais, uma tradução profissional do website, dos materiais de reserva e das comunicações com clientes faz toda a diferença. Os meus preços são competitivos e adequados à dimensão do projeto.\n\n[your portfolio URL]\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\n[your name · your@email.com]'
   },
   {
     label:'Company',
     subject:'EN↔PT translation — freelance support',
-    body:"Hi [Name],\n\nI'm a freelance translator with 5 years of practice working between English and Portuguese — across corporate, institutional, and editorial content.\n\nGiven [Company]'s presence across both markets, I imagine there are regular EN↔PT translation needs — website copy, product documentation, press materials, or internal communications. I also work with Spanish, French, and Italian into Portuguese, and have contacts for German and Russian. Rates are competitive and scaled to project size.\n\nPortfolio: guilhermegfmachado.github.io/work/translation.html\n\nIf translation needs come up, I'd be glad to discuss.\n\nBest,\nGuilherme Machado\nguilhermegfmachado@gmail.com"
+    body:"Hi [Name],\n\nI'm a freelance translator with 5 years of practice working between English and Portuguese — across corporate, institutional, and editorial content.\n\nGiven [Company]'s presence across both markets, I imagine there are regular EN↔PT translation needs — website copy, product documentation, press materials, or internal communications. I also work with Spanish, French, and Italian into Portuguese, and have contacts for German and Russian. Rates are competitive and scaled to project size.\n\nPortfolio: [your portfolio URL]\n\nIf translation needs come up, I'd be glad to discuss.\n\nBest,\n[your name · your@email.com]"
   },
   {
     label:'Cultural Institution',
     subject:'Tradução EN↔PT — disponível para colaboração',
-    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português, com formação específica em tradução literária, filosófica e cultural.\n\nTenho trabalhado com instituições culturais portuguesas em textos de programa, materiais de exposição, comunicados de imprensa, candidaturas e correspondência internacional. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+    body:'Exmo(a). Sr(a).,\n\nChamo-me [your name] e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português, com formação específica em tradução literária, filosófica e cultural.\n\nTenho trabalhado com instituições culturais portuguesas em textos de programa, materiais de exposição, comunicados de imprensa, candidaturas e correspondência internacional. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\n[your portfolio URL]\n\nCom os melhores cumprimentos,\n[your name · your@email.com]'
   },
   {
     label:'Hotel',
     subject:'Tradução EN↔PT — website e comunicações',
-    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que alguns conteúdos podem beneficiar de uma tradução ou revisão profissional para inglês.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Num setor onde a experiência do hóspede internacional começa online, uma tradução profissional do website, das descrições de quartos e dos materiais de reserva faz toda a diferença. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\nguilhermegfmachado.github.io/work/translation.html\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\nGuilherme Machado\nguilhermegfmachado@gmail.com'
+    body:'Caríssimos,\n\nAo visitar o vosso website, reparei que alguns conteúdos podem beneficiar de uma tradução ou revisão profissional para inglês.\n\nSou tradutor freelance com 5 anos de experiência, especializado em inglês e português. Num setor onde a experiência do hóspede internacional começa online, uma tradução profissional do website, das descrições de quartos e dos materiais de reserva faz toda a diferença. Trabalho também com espanhol, francês e italiano, e tenho contactos para alemão e russo. Os meus preços são competitivos.\n\n[your portfolio URL]\n\nSe tiverem interesse, enviem-me o número de palavras e envio rapidamente um orçamento.\n\nCom os melhores cumprimentos,\n[your name · your@email.com]'
   },
   {
     label:'Junta de Freguesia',
     subject:'Tradutor EN↔PT — disponível para colaboração',
-    body:'Exmo(a). Sr(a).,\n\nChamo-me Guilherme Machado e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso a junta necessite de apoio em tradução EN↔PT — para comunicações institucionais, conteúdos online, correspondência internacional ou candidaturas — estou disponível para colaborar. Os meus preços são competitivos e adequados à dimensão do projeto.\n\nguilhermegfmachado.github.io/work/translation.html\nguilhermegfmachado@gmail.com\n\nCom os melhores cumprimentos,\nGuilherme Machado'
+    body:'Exmo(a). Sr(a).,\n\nChamo-me [your name] e sou tradutor freelance com 5 anos de experiência, especializado em inglês e português.\n\nCaso a junta necessite de apoio em tradução EN↔PT — para comunicações institucionais, conteúdos online, correspondência internacional ou candidaturas — estou disponível para colaborar. Os meus preços são competitivos e adequados à dimensão do projeto.\n\n[your portfolio URL]\n\nCom os melhores cumprimentos,\n[your name · your@email.com]'
   }
 ];
 
@@ -195,6 +314,22 @@ let sentSet = new Set();
 let activeFilter = 'all';
 let searchQuery = '';
 let activeTpl = 0;
+let sortMode = 'cat'; // 'cat' | 'priority'
+let activeOutcome = '';   // '' | 'replied' | 'interested' | 'declined' | 'bounced' | 'followup'
+let outcomesMap = {};     // {id: outcome}
+let notesMap    = {};     // {id: note text}
+let sigSettings = {name:'', email:'', url:''};
+
+const OUTCOME_CFG = {
+  '':          {label:'',           color:''},
+  replied:     {label:'replied',    color:'#6ea8e8'},
+  interested:  {label:'interested', color:'#4ec97a'},
+  declined:    {label:'declined',   color:'#e06f6f'},
+  bounced:     {label:'bounced',    color:'#e8a23a'},
+  followup:    {label:'follow up',  color:'#a07ede'},
+};
+const OUTCOME_CYCLE = ['','replied','interested','declined','bounced','followup'];
+const CAT_TPL_IDX   = {câmara:0, motel:1, company:2, cultural:3, hotel:4, junta:5};
 
 // ─── localStorage ───
 function loadSent() {
@@ -205,10 +340,66 @@ function loadSent() {
 function saveSent() {
   localStorage.setItem(LS_KEY, JSON.stringify([...sentSet]));
 }
+function loadOutcomes() {
+  try { outcomesMap = JSON.parse(localStorage.getItem('crm_outcomes') || '{}'); } catch(e) { outcomesMap = {}; }
+}
+function saveOutcomes() {
+  try { localStorage.setItem('crm_outcomes', JSON.stringify(outcomesMap)); } catch(e) {}
+}
+function loadNotes() {
+  try { notesMap = JSON.parse(localStorage.getItem('crm_notes') || '{}'); } catch(e) { notesMap = {}; }
+}
+function saveNotes() {
+  try { localStorage.setItem('crm_notes', JSON.stringify(notesMap)); } catch(e) {}
+}
+function loadSigSettings() {
+  try { sigSettings = Object.assign({name:'',email:'',url:''}, JSON.parse(localStorage.getItem('crm_sig') || '{}')); } catch(e) {}
+}
+function saveSig() {
+  sigSettings = {
+    name:  (document.getElementById('sig-name') .value || '').trim(),
+    email: (document.getElementById('sig-email').value || '').trim(),
+    url:   (document.getElementById('sig-url')  .value || '').trim(),
+  };
+  try { localStorage.setItem('crm_sig', JSON.stringify(sigSettings)); } catch(e) {}
+}
+function initSigPanel() {
+  document.getElementById('sig-name') .value = sigSettings.name;
+  document.getElementById('sig-email').value = sigSettings.email;
+  document.getElementById('sig-url')  .value = sigSettings.url;
+}
+function toggleSig() {
+  document.getElementById('sigtoggle').classList.toggle('open');
+  document.getElementById('sigbody').classList.toggle('open');
+}
+// Daily counter
+function getDailyCount() {
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const d = JSON.parse(localStorage.getItem('crm_daily') || '{}');
+    return d.date === today ? (d.count || 0) : 0;
+  } catch(e) { return 0; }
+}
+function incrementDaily() {
+  try {
+    const today = new Date().toISOString().slice(0,10);
+    const d = JSON.parse(localStorage.getItem('crm_daily') || '{}');
+    const count = (d.date === today ? (d.count||0) : 0) + 1;
+    localStorage.setItem('crm_daily', JSON.stringify({date:today, count}));
+    const el = document.getElementById('sv-today');
+    if (el) el.textContent = count;
+  } catch(e) {}
+}
+function initDailyStat() {
+  const el = document.getElementById('sv-today');
+  if (el) el.textContent = getDailyCount();
+}
 
 // ─── Actions ───
 function toggleSent(id) {
-  sentSet.has(id) ? sentSet.delete(id) : sentSet.add(id);
+  const wasSent = sentSet.has(id);
+  wasSent ? sentSet.delete(id) : sentSet.add(id);
+  if (!wasSent) incrementDaily();
   saveSent();
   render();
 }
@@ -217,6 +408,89 @@ function resetAll() {
   sentSet.clear();
   saveSent();
   render();
+}
+// ─── Outcomes ───
+function cycleOutcome(id) {
+  const cur = outcomesMap[id] || '';
+  const next = OUTCOME_CYCLE[(OUTCOME_CYCLE.indexOf(cur) + 1) % OUTCOME_CYCLE.length];
+  if (next === '') delete outcomesMap[id]; else outcomesMap[id] = next;
+  saveOutcomes();
+  render();
+}
+function setOutcomeFilter(o) {
+  activeOutcome = o;
+  updateOutcomeBtns();
+  renderTable();
+}
+function updateOutcomeBtns() {
+  document.querySelectorAll('.obtn').forEach(b => b.classList.toggle('oa', b.dataset.o === activeOutcome));
+}
+// ─── Notes ───
+function toggleNote(id) {
+  const el = document.getElementById('ne-'+id);
+  if (!el) return;
+  const open = el.style.display !== 'none';
+  el.style.display = open ? 'none' : 'block';
+  if (!open) el.querySelector('.note-ta').focus();
+}
+function saveNote(id, value) {
+  const v = value.trim();
+  if (v) notesMap[id] = v; else delete notesMap[id];
+  saveNotes();
+  const pr = document.getElementById('np-'+id);
+  if (pr) { pr.textContent = v; pr.style.display = v ? '' : 'none'; }
+  const ni = document.getElementById('ni-'+id);
+  if (ni) ni.classList.toggle('note-has', !!v);
+}
+// ─── Mailto + template fill ───
+function getFirstName(sub) {
+  if (!sub || !sub.includes('·')) return null;
+  const part = sub.split('—')[0].trim();
+  const first = part.split(' ')[0];
+  return first.length > 1 ? first : null;
+}
+function fillTemplate(body, firstName) {
+  let t = body;
+  if (firstName) t = t.replace(/\[Name\]/g, firstName);
+  const sig = sigSettings;
+  const sigLine = [sig.name, sig.email].filter(Boolean).join(' · ') || '[your name · your@email.com]';
+  t = t.replace(/\[your name · your@email\.com\]/g, sigLine);
+  t = t.replace(/\[your name\]/gi,        sig.name  || '[your name]');
+  t = t.replace(/\[your@email\.com\]/gi, sig.email || '[your@email.com]');
+  t = t.replace(/\[your portfolio URL\]/gi, sig.url || '[your portfolio URL]');
+  return t;
+}
+function openMailtoEl(btn) {
+  const e = entries.find(x => x.id === btn.dataset.id);
+  if (!e) return;
+  const tpl = TEMPLATES[CAT_TPL_IDX[e.cat] || 0];
+  const body = fillTemplate(tpl.body, getFirstName(e.sub));
+  const subj = tpl.subject.replace(/\[Company\]/g, e.name);
+  window.location.href = 'mailto:' + encodeURIComponent(e.email)
+    + '?subject=' + encodeURIComponent(subj)
+    + '&body='    + encodeURIComponent(body);
+}
+// ─── CSV export ───
+function exportCSV() {
+  const rows = [['ID','Category','Name','Contact','Email','Status','Sent','Outcome','Note','Press Inbox']];
+  entries.forEach(e => rows.push([
+    e.id, e.cat, e.name, e.sub, e.email, e.status,
+    sentSet.has(e.id)?'yes':'no',
+    outcomesMap[e.id]||'',
+    (notesMap[e.id]||'').replace(/\n/g,' '),
+    e.press||''
+  ]));
+  const csv = rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const blob = new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'crm-'+new Date().toISOString().slice(0,10)+'.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+// ─── Bulk mark ───
+function markGroupSent(idsStr) {
+  idsStr.split(',').forEach(id => { if (!sentSet.has(id)) { sentSet.add(id); incrementDaily(); } });
+  saveSent(); render();
 }
 function setFilter(f) {
   activeFilter = f;
@@ -276,23 +550,26 @@ function renderStats() {
 
 function updateFilterBtns() {
   const actMap = {
-    'all':'act-a','unsent':'act-a',
+    'all':'act-a','unsent':'act-a','flagged':'act-a',
     'câmara':'act-c','motel':'act-m','company':'act-co',
     'cultural':'act-cu','hotel':'act-h','junta':'act-j'
   };
   document.querySelectorAll('.fbtn').forEach(btn => {
     btn.className = 'fbtn';
-    if (btn.dataset.f === activeFilter) btn.classList.add(actMap[activeFilter]);
+    if (btn.dataset.f === activeFilter) btn.classList.add(actMap[activeFilter]||'act-a');
   });
+  updateOutcomeBtns();
 }
 
 function filteredEntries() {
   const q = searchQuery;
   return entries.filter(e => {
-    if (activeFilter === 'unsent' && sentSet.has(e.id)) return false;
-    if (activeFilter !== 'all' && activeFilter !== 'unsent' && e.cat !== activeFilter) return false;
+    if (activeFilter === 'unsent'  && sentSet.has(e.id)) return false;
+    if (activeFilter === 'flagged' && !e.sub.includes('⚠')) return false;
+    if (activeFilter !== 'all' && activeFilter !== 'unsent' && activeFilter !== 'flagged' && e.cat !== activeFilter) return false;
+    if (activeOutcome && (outcomesMap[e.id]||'') !== activeOutcome) return false;
     if (q) {
-      const hay = (e.name + ' ' + e.sub + ' ' + e.email).toLowerCase();
+      const hay = (e.name+' '+e.sub+' '+e.email+(notesMap[e.id]||'')).toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
@@ -306,34 +583,63 @@ function renderTable() {
   if (!filtered.length) { tb.innerHTML = ''; nores.style.display = ''; return; }
   nores.style.display = 'none';
 
-  const groups = {};
-  CAT_ORDER.forEach(c => groups[c] = []);
-  filtered.forEach(e => { if (groups[e.cat]) groups[e.cat].push(e); });
+  function rowHtml(e) {
+    const sent = sentSet.has(e.id);
+    const outcome = outcomesMap[e.id] || '';
+    const ocfg = OUTCOME_CFG[outcome] || OUTCOME_CFG[''];
+    const note  = notesMap[e.id] || '';
+    const c2 = CAT_COLOR[e.cat];
+    const odStyle = outcome ? `background:${ocfg.color};border-color:${ocfg.color}` : '';
+    return `<tr class="er${sent?' sent':''}">
+      <td class="cc">
+        <input type="checkbox" class="eck"${sent?' checked':''} data-id="${esc(e.id)}" onchange="toggleSent(this.dataset.id)">
+        <button type="button" class="odot" onclick="cycleOutcome('${esc(e.id)}')" style="${odStyle}" title="${ocfg.label||'Set outcome (click to cycle)'}"></button>
+      </td>
+      <td>
+        <div class="en">${esc(e.name)} <button type="button" class="note-icon${note?' note-has':''}" id="ni-${esc(e.id)}" onclick="toggleNote('${esc(e.id)}')" title="${note?'Edit note':'Add note'}">✎</button></div>
+        <div class="es">${esc(e.sub)}</div>
+        <div class="note-preview" id="np-${esc(e.id)}" style="${note?'':'display:none'}">${esc(note)}</div>
+        <div class="note-edit" id="ne-${esc(e.id)}" style="display:none"><textarea class="note-ta" onblur="saveNote('${esc(e.id)}',this.value)" placeholder="Add a note…">${esc(note)}</textarea></div>
+      </td>
+      <td class="ce"><span class="ee">${esc(e.email)}</span>${e.press?`<div class="ep">↳ ${esc(e.press)}</div>`:''}</td>
+      <td class="cbadge"><span class="badge" style="background:${c2}22;color:${c2};border:1px solid ${c2}44">${CAT_LABEL[e.cat]}</span></td>
+      <td class="cst"><span class="badge s-${e.status}">${e.status}</span></td>
+      <td class="ccp">
+        <button type="button" class="btn-cr" data-email="${esc(e.email)}" onclick="copyEmail(this)">copy</button>
+        ${e.press?`<button type="button" class="btn-cr btn-press" data-email="${esc(e.press)}" onclick="copyEmail(this)" title="Copy press inbox">press</button>`:''}
+        <button type="button" class="btn-cr btn-mailto" data-id="${esc(e.id)}" onclick="openMailtoEl(this)" title="Open in email client with template pre-filled">✉ open</button>
+      </td>
+    </tr>`;
+  }
 
   let html = '';
-  let firstGroup = true;
-  CAT_ORDER.forEach(cat => {
-    const grp = groups[cat];
-    if (!grp.length) return;
-    const col = CAT_COLOR[cat];
-    const unsent = grp.filter(e => !sentSet.has(e.id)).length;
-    html += `<tr class="gh${firstGroup?' first':''}">
-      <td colspan="6" style="color:${col}">${esc(CAT_NAME[cat])}<span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0"> — ${unsent} unsent / ${grp.length} total</span></td>
-    </tr>`;
-    firstGroup = false;
-    grp.forEach(e => {
-      const sent = sentSet.has(e.id);
-      const c2 = CAT_COLOR[e.cat];
-      html += `<tr class="er${sent?' sent':''}">
-        <td class="cc"><input type="checkbox" class="eck"${sent?' checked':''} onchange="toggleSent('${e.id}')"></td>
-        <td><div class="en">${esc(e.name)}</div><div class="es">${esc(e.sub)}</div></td>
-        <td class="ce"><span class="ee">${esc(e.email)}</span></td>
-        <td class="cbadge"><span class="badge" style="background:${c2}22;color:${c2};border:1px solid ${c2}44">${CAT_LABEL[e.cat]}</span></td>
-        <td class="cst"><span class="badge s-${e.status}">${e.status}</span></td>
-        <td class="ccp"><button class="btn-cr" data-email="${esc(e.email)}" onclick="copyEmail(this)">copy</button></td>
+  if (sortMode === 'priority') {
+    // Flat list sorted by priority score desc, then name
+    const sorted = [...filtered].sort((a,b) => priScore(b)-priScore(a) || a.name.localeCompare(b.name));
+    sorted.forEach(e => { html += rowHtml(e); });
+  } else {
+    // Grouped by category; within each group: named contacts first, then alpha
+    const groups = {};
+    CAT_ORDER.forEach(c => groups[c] = []);
+    filtered.forEach(e => { if (groups[e.cat]) groups[e.cat].push(e); });
+    let firstGroup = true;
+    CAT_ORDER.forEach(cat => {
+      const grp = groups[cat].sort((a,b) => {
+        const an = a.sub && a.sub.includes('·') ? 0 : 1;
+        const bn = b.sub && b.sub.includes('·') ? 0 : 1;
+        return an - bn || a.name.localeCompare(b.name);
+      });
+      if (!grp.length) return;
+      const col = CAT_COLOR[cat];
+      const unsent = grp.filter(e => !sentSet.has(e.id)).length;
+      const unsentIds = grp.filter(e=>!sentSet.has(e.id)).map(e=>e.id).join(',');
+      html += `<tr class="gh${firstGroup?' first':''}">
+        <td colspan="6" style="color:${col}">${esc(CAT_NAME[cat])}<span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0"> — ${unsent} unsent / ${grp.length} total</span>${unsent>0?`<button type="button" class="btn-markall" onclick="markGroupSent('${unsentIds}')">mark all sent</button>`:''}</td>
       </tr>`;
+      firstGroup = false;
+      grp.forEach(e => { html += rowHtml(e); });
     });
-  });
+  }
   tb.innerHTML = html;
 }
 
@@ -358,13 +664,19 @@ function renderTpl() {
 
 function copyTpl(btn) {
   const t = TEMPLATES[activeTpl];
-  copyText('Subject: ' + t.subject + '\n\n' + t.body, btn, 'Copied!');
+  copyText('Subject: ' + t.subject + '\n\n' + fillTemplate(t.body, null), btn, 'Copied!');
 }
 
 // ─── Init ───
 loadSent();
+loadOutcomes();
+loadNotes();
+loadSigSettings();
+initWarn();
+initDailyStat();
 renderTpl();
 render();
+initSigPanel();
 </script>
 </body>
 </html>
