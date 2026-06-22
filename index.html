@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Personal outreach CRM — translation services.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'">
 <title>Outreach CRM</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230b0d11'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='%23d4a853'%3E✉%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -449,9 +453,10 @@ function getFirstName(sub) {
   const first = part.split(' ')[0];
   return first.length > 1 ? first : null;
 }
-function fillTemplate(body, firstName) {
+function fillTemplate(body, firstName, company) {
   let t = body;
   if (firstName) t = t.replace(/\[Name\]/g, firstName);
+  if (company)   t = t.replace(/\[Company\]/g, company);
   const sig = sigSettings;
   const sigLine = [sig.name, sig.email].filter(Boolean).join(' · ') || '[your name · your@email.com]';
   t = t.replace(/\[your name · your@email\.com\]/g, sigLine);
@@ -464,7 +469,7 @@ function openMailtoEl(btn) {
   const e = entries.find(x => x.id === btn.dataset.id);
   if (!e) return;
   const tpl = TEMPLATES[CAT_TPL_IDX[e.cat] || 0];
-  const body = fillTemplate(tpl.body, getFirstName(e.sub));
+  const body = fillTemplate(tpl.body, getFirstName(e.sub), e.name);
   const subj = tpl.subject.replace(/\[Company\]/g, e.name);
   window.location.href = 'mailto:' + encodeURIComponent(e.email)
     + '?subject=' + encodeURIComponent(subj)
