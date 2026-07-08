@@ -114,12 +114,13 @@ table{width:100%;border-collapse:collapse}
   *{transition:none!important;animation:none!important}
 }
 @media (max-width:640px) {
-  /* Header: tighten, keep on one line at small sizes */
-  .hdr{padding:10px 14px;gap:6px}
-  .hdr-right{gap:10px}
-  .stat-val{font-size:15px}
-  .stats{gap:8px}
-  .stat-sep{height:18px}
+  /* Header: stack title over stats so nothing clips off-screen */
+  .hdr{flex-direction:column;align-items:stretch;gap:10px;padding:10px 14px}
+  .hdr-right{gap:10px;justify-content:space-between;flex-wrap:wrap}
+  .stats{gap:14px;flex:1 1 auto}
+  .stat-val{font-size:16px}
+  .stat-sep{height:20px}
+  .btn-csv{font-size:10px;padding:5px 9px}
   .btn-reset{font-size:10px;padding:5px 9px}
 
   /* Warning: flush to edges on mobile */
@@ -677,11 +678,17 @@ loadSent();
 loadOutcomes();
 loadNotes();
 loadSigSettings();
-initWarn();
 initDailyStat();
 renderTpl();
 render();
 initSigPanel();
+// On small screens, start with the (tall) template panel collapsed to reduce clutter
+try {
+  if (window.matchMedia('(max-width:640px)').matches) {
+    document.getElementById('ttoggle').classList.remove('open');
+    document.getElementById('tbody2').classList.remove('open');
+  }
+} catch(e) {}
 </script>
 </body>
 </html>
