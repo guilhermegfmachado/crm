@@ -240,6 +240,9 @@ table{width:100%;border-collapse:collapse}
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </button>
     <button type="button" class="btn-csv" onclick="exportCSV()" title="Export all contacts to CSV">CSV ↓</button>
+    <button type="button" class="btn-csv" onclick="exportBackup()" title="Download a backup of your progress — sent state, outcomes, notes & settings">Backup ↓</button>
+    <button type="button" class="btn-csv" onclick="document.getElementById('restore-file').click()" title="Restore your progress from a backup file">Restore ↑</button>
+    <input type="file" id="restore-file" accept="application/json,.json" style="display:none" onchange="importBackup(this)">
     <button type="button" class="btn-reset" onclick="resetAll()">Reset All</button>
   </div>
 </header>
@@ -522,6 +525,43 @@ function exportCSV() {
   a.href = URL.createObjectURL(blob); a.download = 'crm-'+new Date().toISOString().slice(0,10)+'.csv';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
+}
+// ─── Backup / Restore ───
+// Your progress (sent state, outcomes, notes, settings) lives only in this
+// browser. These let you save it to a file and restore it on any device.
+const BACKUP_KEYS = [LS_KEY, 'crm_outcomes', 'crm_notes', 'crm_sig', 'crm_daily', 'gm_theme'];
+function exportBackup() {
+  const data = { _type:'outreach-crm-backup', _version:1, _exported:new Date().toISOString(), store:{} };
+  BACKUP_KEYS.forEach(k => { const v = localStorage.getItem(k); if (v !== null) data.store[k] = v; });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'crm-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+function importBackup(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if (!data || data._type !== 'outreach-crm-backup' || typeof data.store !== 'object')
+        throw new Error('not a CRM backup file');
+      const keys = BACKUP_KEYS.filter(k => k in data.store);
+      if (!keys.length) throw new Error('backup is empty');
+      if (!confirm('Restore '+keys.length+' saved item(s) from this backup?\nThis overwrites your current sent state, outcomes and notes in this browser.')) { input.value=''; return; }
+      keys.forEach(k => localStorage.setItem(k, data.store[k]));
+      loadSent(); loadOutcomes(); loadNotes(); loadSigSettings(); initSigPanel();
+      try { const t = localStorage.getItem('gm_theme'); if (t==='light'||t==='dark') document.documentElement.setAttribute('data-theme', t); } catch(e) {}
+      render();
+      alert('Backup restored ✓');
+    } catch(e) {
+      alert('Could not restore this file: '+e.message);
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
 }
 // ─── Bulk mark ───
 function markGroupSent(idsStr) {
