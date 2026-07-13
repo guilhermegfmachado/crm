@@ -66,6 +66,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 
 /* Controls */
 .ctrl{display:flex;align-items:center;gap:6px;padding:10px 24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.fbar{display:contents}          /* transparent on desktop; becomes a scroll row on mobile */
+.data-row{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 8px}
 .fbtn{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;background:transparent;border:1px solid var(--border);color:var(--muted);padding:5px 11px;border-radius:4px;cursor:pointer;transition:all .15s;white-space:nowrap}
 .fbtn:hover{border-color:var(--border-hover);color:var(--text)}
 .fbtn.act-a{color:var(--accent);border-color:var(--accent);background:rgba(200,245,66,.07)}
@@ -152,11 +154,18 @@ table{width:100%;border-collapse:collapse}
   /* Warning: flush to edges on mobile */
   .warn{border-radius:0;border-left:none;border-right:none;font-size:11.5px}
 
-  /* Controls: search drops to full-width second line */
-  .ctrl{padding:8px 14px}
+  /* Controls: filter chips become one horizontal-scroll row; search full-width below */
+  .ctrl{padding:8px 14px;flex-direction:column;align-items:stretch;gap:8px}
+  .fbar{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:1px}
+  .fbar::-webkit-scrollbar{display:none}
+  .fbar .fbtn,.fbar .sort-btn{flex:0 0 auto}
   .csep{display:none}
   .sort-btn{margin-left:0}
-  .search{width:100%;margin-left:0;flex-basis:100%;order:10}
+  .search{width:100%;margin-left:0}
+  /* Outcome filter: one horizontal-scroll row too */
+  .ctrl-oc{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .ctrl-oc::-webkit-scrollbar{display:none}
+  .ctrl-oc .obtn,.ctrl-oc .oc-lbl{flex:0 0 auto}
 
   /* Template panel */
   .ttoggle{padding:10px 14px}
@@ -251,27 +260,24 @@ table{width:100%;border-collapse:collapse}
       <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
       <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
     </button>
-    <button type="button" class="btn-csv" onclick="exportCSV()" title="Export all contacts to CSV">CSV ↓</button>
-    <button type="button" class="btn-csv" onclick="exportBackup()" title="Download a backup of your progress — sent state, outcomes, notes & settings">Backup ↓</button>
-    <button type="button" class="btn-csv" onclick="document.getElementById('restore-file').click()" title="Restore your progress from a backup file">Restore ↑</button>
-    <input type="file" id="restore-file" accept="application/json,.json" style="display:none" onchange="importBackup(this)">
-    <button type="button" class="btn-reset" onclick="resetAll()">Reset All</button>
   </div>
 </header>
 
 <div class="ctrl">
-  <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
-  <button class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
-  <div class="csep"></div>
-  <button type="button" class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
-  <button type="button" class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
-  <button type="button" class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
-  <button type="button" class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
-  <button type="button" class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
-  <button type="button" class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
-  <button type="button" class="fbtn" data-f="flagged" onclick="setFilter('flagged')">⚠ Flagged</button>
-  <button type="button" class="fbtn" data-f="due" onclick="setFilter('due')" title="Sent 7+ days ago with no reply">⏰ Follow-up due</button>
-  <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
+  <div class="fbar">
+    <button class="fbtn" data-f="all" onclick="setFilter('all')">All</button>
+    <button class="fbtn" data-f="unsent" onclick="setFilter('unsent')">Unsent only</button>
+    <div class="csep"></div>
+    <button type="button" class="fbtn" data-f="câmara" onclick="setFilter('câmara')">Câmaras</button>
+    <button type="button" class="fbtn" data-f="motel" onclick="setFilter('motel')">Motéis</button>
+    <button type="button" class="fbtn" data-f="company" onclick="setFilter('company')">Companies</button>
+    <button type="button" class="fbtn" data-f="cultural" onclick="setFilter('cultural')">Cultural</button>
+    <button type="button" class="fbtn" data-f="hotel" onclick="setFilter('hotel')">Hotels</button>
+    <button type="button" class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
+    <button type="button" class="fbtn" data-f="flagged" onclick="setFilter('flagged')">⚠ Flagged</button>
+    <button type="button" class="fbtn" data-f="due" onclick="setFilter('due')" title="Sent 7+ days ago with no reply">⏰ Follow-up due</button>
+    <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
+  </div>
   <input type="search" class="search" id="search" placeholder="Search…" oninput="setSearch(this.value)">
 </div>
 
@@ -298,7 +304,7 @@ table{width:100%;border-collapse:collapse}
 
 <div class="tpanel">
   <button type="button" class="ttoggle" id="sigtoggle" onclick="toggleSig()">
-    Settings — Signature &amp; Templates
+    Settings — Signature &amp; Data
     <svg class="tchev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
   </button>
   <div class="tbody2" id="sigbody">
@@ -308,6 +314,14 @@ table{width:100%;border-collapse:collapse}
       <input type="url"   class="sig-inp" id="sig-url"   placeholder="Portfolio URL (optional)" oninput="saveSig()">
     </div>
     <div class="sig-hint">Auto-fills [your name], [your@email.com] and [your portfolio URL] when copying or opening a template. Stored locally in your browser.</div>
+    <div class="data-row">
+      <button type="button" class="btn-csv" onclick="exportBackup()" title="Download a backup of your progress — sent state, outcomes, notes & settings">Backup ↓</button>
+      <button type="button" class="btn-csv" onclick="document.getElementById('restore-file').click()" title="Restore your progress from a backup file">Restore ↑</button>
+      <input type="file" id="restore-file" accept="application/json,.json" style="display:none" onchange="importBackup(this)">
+      <button type="button" class="btn-csv" onclick="exportCSV()" title="Export all contacts to CSV">CSV ↓</button>
+      <button type="button" class="btn-reset" onclick="resetAll()">Reset All</button>
+    </div>
+    <div class="sig-hint">Backup saves your progress to a file; Restore loads it on any device. Reset clears all sent state.</div>
   </div>
 </div>
 
