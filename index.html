@@ -32,6 +32,7 @@
   --muted: #666;
   --accent: #c8f542;
   --accent-dim: #a8d030;
+  --on-accent: #0d0d0d;
 }
 :root[data-theme="light"] {
   --bg: #ffffff;
@@ -42,6 +43,7 @@
   --muted: #71717a;
   --accent: #5d8700;
   --accent-dim: #4a6c00;
+  --on-accent: #ffffff;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5}
@@ -185,13 +187,15 @@ table{width:100%;border-collapse:collapse}
 
   /* Larger touch targets */
   .eck{width:18px;height:18px}
+  .cc .odot{width:18px;height:18px;margin-top:10px}
   .btn-cr{padding:8px 12px;font-size:10px}
   .ccp{width:56px}
   .fbtn{padding:6px 11px}
 }
 
 /* Outcomes */
-.odot{display:block;width:9px;height:9px;border-radius:50%;border:1.5px solid var(--border);cursor:pointer;margin:4px auto 0;flex-shrink:0;transition:transform .1s}
+.odot{display:block;position:relative;width:14px;height:14px;border-radius:50%;border:2px solid var(--muted);background:transparent;cursor:pointer;margin:7px auto 0;padding:0;flex-shrink:0;transition:transform .1s}
+.odot::after{content:'';position:absolute;inset:-9px}  /* larger invisible tap target */
 .odot:hover{transform:scale(1.3)}
 .odot-sm{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:4px;vertical-align:middle}
 /* Outcome filter bar */
@@ -218,8 +222,8 @@ table{width:100%;border-collapse:collapse}
 .btn-markall{font-family:'DM Mono',monospace;font-size:9px;background:transparent;border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:3px;cursor:pointer;margin-left:10px;transition:all .15s;text-transform:none;letter-spacing:0;font-weight:400;vertical-align:middle}
 .btn-markall:hover{border-color:var(--accent-dim);color:var(--accent)}
 /* Mailto + note buttons in ccp */
-.btn-mailto{border-color:rgba(110,168,232,.25);color:rgba(110,168,232,.6)}
-.btn-mailto:hover{border-color:#6ea8e8;color:#6ea8e8}
+.btn-mailto{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn-mailto:hover{background:var(--accent-dim);border-color:var(--accent-dim);color:var(--on-accent)}
 .btn-note{border-color:transparent;color:var(--muted)}
 .btn-note:hover{border-color:var(--border);color:var(--text)}
 /* CSV button */
@@ -291,7 +295,7 @@ table{width:100%;border-collapse:collapse}
     <button type="button" class="fbtn" data-f="junta" onclick="setFilter('junta')">Juntas</button>
     <button type="button" class="fbtn" data-f="flagged" onclick="setFilter('flagged')">⚠ Flagged</button>
     <button type="button" class="fbtn" data-f="due" onclick="setFilter('due')" title="Sent 7+ days ago with no reply">⏰ Follow-up due</button>
-    <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by category</button>
+    <button type="button" class="sort-btn" id="sort-btn" onclick="toggleSort()" title="Sort by response likelihood">Sort: by priority</button>
   </div>
   <input type="search" class="search" id="search" placeholder="Search…" oninput="setSearch(this.value)">
 </div>
@@ -421,7 +425,8 @@ let sentSet = new Set();
 let activeFilter = 'all';
 let searchQuery = '';
 let activeTpl = 0;
-let sortMode = 'cat'; // 'cat' | 'priority'
+let sortMode = 'priority'; // 'cat' | 'priority' — best leads first by default
+try { const s = localStorage.getItem('crm_sort'); if (s === 'cat' || s === 'priority') sortMode = s; } catch(e) {}
 let activeOutcome = '';   // '' | 'replied' | 'interested' | 'declined' | 'bounced' | 'followup'
 let outcomesMap = {};     // {id: outcome}
 let notesMap    = {};     // {id: note text}
@@ -484,8 +489,16 @@ function priScore(e) {
   if (e.status === 'confirmed')     s += 1;
   return s;
 }
+function syncSortBtn() {
+  const btn = document.getElementById('sort-btn');
+  if (btn) {
+    btn.textContent = 'Sort: ' + (sortMode === 'priority' ? 'by priority' : 'by category');
+    btn.classList.toggle('active', sortMode === 'priority');
+  }
+}
 function toggleSort() {
   sortMode = sortMode === 'priority' ? 'cat' : 'priority';
+  try { localStorage.setItem('crm_sort', sortMode); } catch(e) {}
   const btn = document.getElementById('sort-btn');
   if (btn) {
     btn.textContent = 'Sort: ' + (sortMode === 'priority' ? 'by priority' : 'by category');
@@ -940,6 +953,7 @@ function copyTpl(btn) {
 }
 
 // ─── Init ───
+syncSortBtn();
 loadSent();
 loadSentDates();
 loadOutcomes();
